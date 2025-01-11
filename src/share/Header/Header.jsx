@@ -1,17 +1,38 @@
 import React, { useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
+import logo from "../../assets/image/nss-logo.png"
+import { Link } from 'react-router-dom';
+import { IoIosCall } from 'react-icons/io';
+import { FaFacebook, FaYoutube } from 'react-icons/fa';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <header className="bg-base-100 shadow-md">
-      <div className="container mx-auto flex justify-between items-center py-4 px-6">
+      {/* Sub header */}
+      <div className='flex justify-between items-center bg-blue-500 py-1 px-5'>
+        <h1 className='flex items-center font-semibold text-lg gap-2 text-white tracking-wider'><IoIosCall /> 01848107019</h1>
+
+        {/* Socialmedia link */}
+        <div className='flex justify-center gap-2 text-white'>
+        <Link>
+        <FaFacebook  className='text-lg'/>
+        </Link>
+
+        <Link>
+        <FaYoutube className='text-lg'/>
+        </Link>
+
+        </div>
+      </div>
+
+
+      {/* Header */}
+      <div className="container mx-auto flex justify-between items-center py-4 px-6 tracking-wide">
         {/* Logo */}
         <div className="flex items-center">
-          <a href="/" className="text-2xl font-bold text-primary">
-            Logo
-          </a>
+          <img src={logo} alt="" className='w-20'/>
         </div>
 
         {/* Desktop Navigation */}
@@ -28,9 +49,11 @@ const Header = () => {
         </nav>
 
         {/* Button */}
-        <div className="hidden lg:block">
-          <button className="btn btn-primary">Get Started</button>
+        <Link>
+        <div className="hidden lg:block bg-slate-400 py-2 px-3 rounded">
+          <button className="btn btn-primary text-white">Get Started</button>
         </div>
+        </Link>
 
         {/* Mobile Hamburger Menu */}
         <div className="lg:hidden flex items-center">
