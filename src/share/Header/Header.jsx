@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <header className="bg-base-100 shadow-md">
       {/* Sub header */}
-      <div className='flex justify-between items-center bg-blue-500 py-1 px-5'>
+      <div className='flex justify-between items-center bg-orange-500 py-1 px-5'>
         <h1 className='flex items-center font-semibold text-lg gap-2 text-white tracking-wider'><IoIosCall /> 01848107019</h1>
 
         {/* Socialmedia link */}
@@ -50,7 +50,7 @@ const Header = () => {
 
         {/* Button */}
         <Link>
-        <div className="hidden lg:block bg-slate-400 py-2 px-3 rounded">
+        <div className="hidden lg:block bg-orange-500  py-2 px-3 rounded">
           <button className="btn btn-primary text-white">Get Started</button>
         </div>
         </Link>
