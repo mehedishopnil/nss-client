@@ -29,14 +29,18 @@ const Header = () => {
 
 
       {/* Header */}
-      <div className="container mx-auto flex justify-between items-center py-4 px-6 tracking-wide">
+      <div className="container mx-auto flex justify-between items-center py-4 px-6 ">
         {/* Logo */}
         <div className="flex items-center">
           <img src={logo} alt="" className='w-20'/>
+          <div className=''>
+          <h1 className='font-bold text-xl uppercase'>National Security Service</h1>
+          <h1 className='font-semibold text-lg uppercase'>Supply & Support</h1>
+          </div>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex space-x-8">
+        <nav className="hidden lg:flex space-x-8 tracking-wide">
           <a href="#services" className="text-lg font-semibold text-base-content hover:text-primary">
             Our Services
           </a>
