@@ -28,7 +28,7 @@ const Header = () => {
       </div>
 
       {/* Main Header */}
-      <div className="container mx-auto flex justify-between items-center py-4 px-6">
+      <div className="container mx-auto flex justify-between items-center py-4 px-2 md:px-6">
         {/* Logo and Title */}
         <div className="flex items-center space-x-4">
           <img src={logo} alt="Logo" className="w-16 md:w-20" />
