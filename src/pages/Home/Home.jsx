@@ -1,65 +1,55 @@
 import React from "react";
+import BannerSection from "./HomeContent/BannerSection";
+import ServicesSection from "./HomeContent/ServicesSection";
 
-const services = [
-  {
-    id: 1,
-    image: "https://via.placeholder.com/300x200",
-    title: "Personal Security",
-    content:
-      "Providing trained and reliable security personnel for individuals requiring personal protection.",
-  },
-  {
-    id: 2,
-    image: "https://via.placeholder.com/300x200",
-    title: "Corporate Security",
-    content:
-      "Ensuring the safety of corporate assets and employees with professional security solutions.",
-  },
-  {
-    id: 3,
-    image: "https://via.placeholder.com/300x200",
-    title: "Event Security",
-    content:
-      "Offering comprehensive security for events of all sizes to ensure smooth operations.",
-  },
-];
-
-const ServicesSection = () => {
+const Home = () => {
   return (
-    <section className="container mx-auto px-4 py-12">
-      {/* Section Title */}
-      <h1 className="text-3xl md:text-4xl font-bold text-center text-orange-500 mb-8">
-        Our Services
-      </h1>
+    <div>
+      <BannerSection />
 
-      {/* Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {services.map((service) => (
-          <div
-            key={service.id}
-            className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
-          >
-            {/* Card Image */}
-            <img
-              src={service.image}
-              alt={service.title}
-              className="w-full h-48 sm:h-56 object-cover"
-            />
+      {/* About Us Section */}
+      <section className="container mx-auto px-4 py-12 flex flex-col md:flex-row items-center gap-8">
+        {/* Left Image */}
+        <div className="w-full md:w-1/2">
+          <img
+            src="https://st5.depositphotos.com/2274151/68402/v/450/depositphotos_684022980-stock-illustration-police-officer-silhouette-police-officer.jpg"
+            alt="About NSS"
+            className="rounded-lg shadow-md w-full"
+          />
+        </div>
 
-            {/* Card Content */}
-            <div className="p-4">
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                {service.title}
-              </h2>
-              <p className="text-gray-600 text-base leading-relaxed">
-                {service.content}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
+        {/* Right Content */}
+        <div className="w-full md:w-1/2">
+          <h1 className="text-3xl md:text-4xl font-bold text-orange-500 mb-4">
+            About NSS
+          </h1>
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4">
+            Trusted Security Solutions in Bangladesh
+          </h2>
+          <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+            At NSS, we specialize in delivering comprehensive security services
+            across Bangladesh. With a focus on professionalism, reliability, and
+            excellence, we ensure the safety of businesses, institutions, and
+            individuals. Our team of highly trained security personnel is
+            committed to providing round-the-clock support and ensuring peace of
+            mind for our clients.
+          </p>
+          <p className="text-base md:text-lg text-gray-700 leading-relaxed mt-4">
+            From guarding your assets to maintaining a secure environment, NSS
+            stands as a trusted name in the industry. We aim to support and
+            supply security solutions that meet the unique needs of every client
+            we serve.
+          </p>
+        </div>
+      </section>
+
+        {/* Service Section */}
+
+      <section>
+        <ServicesSection/>
+      </section>
+    </div>
   );
 };
 
-export default ServicesSection;
+export default Home;
