@@ -6,18 +6,21 @@ const services = [
     image: "https://png.pngtree.com/png-vector/20220611/ourmid/pngtree-security-management-icon-flat-design-security-services-technology-security-vector-png-image_22298144.png",
     title: "Personal Security",
     content: "Providing trained and reliable security personnel for individuals requiring personal protection.",
+    link: "/personal-security", // Add a link for each service
   },
   {
     id: 2,
     image: "https://cdn-icons-png.flaticon.com/512/2548/2548895.png",
     title: "Corporate Security",
     content: "Ensuring the safety of corporate assets and employees with professional security solutions.",
+    link: "/corporate-security",
   },
   {
     id: 3,
     image: "https://cdn-icons-png.flaticon.com/512/6079/6079964.png",
     title: "Event Security",
     content: "Offering comprehensive security for events of all sizes to ensure smooth operations.",
+    link: "/event-security",
   },
 ];
 
@@ -27,10 +30,11 @@ const ServicesSection = () => {
       <h1 className="text-3xl md:text-4xl font-bold text-center text-orange-500 mb-8">
         Our Services
       </h1>
-      <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {services.map((service) => (
-          <div
+          <a
             key={service.id}
+            href={service.link}
             className="flex flex-col items-center bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
           >
             {/* Image */}
@@ -49,7 +53,7 @@ const ServicesSection = () => {
                 {service.content}
               </p>
             </div>
-          </div>
+          </a>
         ))}
       </div>
     </section>

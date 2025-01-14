@@ -1,9 +1,10 @@
 import React from 'react';
+import AboutNss from '../../components/AboutNss/AboutNss';
 
 const AboutUs = () => {
      return (
           <div>
-               <h1>This is About us page</h1>
+               <AboutNss/>
           </div>
      );
 };
