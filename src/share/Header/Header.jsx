@@ -1,29 +1,35 @@
 import React, { useState } from "react";
 import { FiMenu } from "react-icons/fi";
-import logo from "../../assets/image/nss-logo.png";
-import { Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { IoIosCall } from "react-icons/io";
 import { FaFacebook, FaYoutube } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import logo from "../../assets/image/nss-logo.png";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation(); // Get the current location
 
   const closeMenu = () => {
     setIsOpen(false); // Function to close the menu
   };
+
+  const isActive = (path) =>
+    location.pathname === path
+      ? "text-orange-500   font-bold border-b-2 border-primary"
+      : "text-base-content font-semibold hover:text-primary";
 
   return (
     <header className="bg-base-100 shadow-md">
       {/* Sub-header */}
       <div className="flex justify-between items-center bg-orange-500 py-1 px-5">
         <div className="flex gap-2 md:gap-10 md:px-14">
-        <h1 className="flex items-center font-semibold text-xs md:text-lg gap-1 text-white tracking-wider">
-          <IoIosCall /> 01848107019
-        </h1>
-        <h1 className="flex items-center font-semibold text-xs md:text-lg gap-1 text-white tracking-wider">
-        <MdEmail /> nssbd24@gmail.com
-        </h1>
+          <h1 className="flex items-center font-semibold text-xs md:text-lg gap-1 text-white tracking-wider">
+            <IoIosCall /> 01848107019
+          </h1>
+          <h1 className="flex items-center font-semibold text-xs md:text-lg gap-1 text-white tracking-wider">
+            <MdEmail /> nssbd24@gmail.com
+          </h1>
         </div>
 
         {/* Social Media Links */}
@@ -56,22 +62,13 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex space-x-8">
-          <Link
-            to="services"
-            className="text-sm md:text-lg font-semibold text-base-content hover:text-primary"
-          >
+          <Link to="/services" className={`${isActive("/services")}`}>
             Our Services
           </Link>
-          <Link
-            to="about-us"
-            className="text-sm md:text-lg font-semibold text-base-content hover:text-primary"
-          >
+          <Link to="/about-us" className={`${isActive("/about-us")}`}>
             About Us
           </Link>
-          <Link
-            to="contact"
-            className="text-sm md:text-lg font-semibold text-base-content hover:text-primary"
-          >
+          <Link to="/contact" className={`${isActive("/contact")}`}>
             Contact Us
           </Link>
         </nav>
@@ -101,27 +98,27 @@ const Header = () => {
         <nav className="lg:hidden bg-base-200 shadow-md">
           <div className="flex flex-col space-y-4 py-4 px-6">
             <Link
-              to="services"
-              className="text-sm md:text-lg font-semibold text-base-content hover:text-primary"
-              onClick={closeMenu} // Close menu on click
+              to="/services"
+              className={`${isActive("/services")}`}
+              onClick={closeMenu}
             >
               Our Services
             </Link>
             <Link
-              to="about-us"
-              className="text-sm md:text-lg font-semibold text-base-content hover:text-primary"
-              onClick={closeMenu} // Close menu on click
+              to="/about-us"
+              className={`${isActive("/about-us")}`}
+              onClick={closeMenu}
             >
               About Us
             </Link>
             <Link
-              to="contact"
-              className="text-sm md:text-lg font-semibold text-base-content hover:text-primary"
-              onClick={closeMenu} // Close menu on click
+              to="/contact"
+              className={`${isActive("/contact")}`}
+              onClick={closeMenu}
             >
               Contact Us
             </Link>
-            <Link to="#" onClick={closeMenu}> {/* Close menu on button click */}
+            <Link to="#" onClick={closeMenu}>
               <button className="btn btn-primary mt-4">Get Started</button>
             </Link>
           </div>
