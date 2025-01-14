@@ -30,8 +30,11 @@ const Header = () => {
       {/* Main Header */}
       <div className="container mx-auto flex justify-between items-center py-4 px-2 md:px-6">
         {/* Logo and Title */}
+        <Link to='/'>
         <div className="flex items-center space-x-4">
+          
           <img src={logo} alt="Logo" className="w-16 md:w-20" />
+          
           <div>
             <h1 className="font-bold text-sm md:text-xl uppercase leading-tight">
               National Security Service
@@ -41,27 +44,29 @@ const Header = () => {
             </h2>
           </div>
         </div>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex space-x-8">
-          <a
+          <Link to='services'
             href="#services"
             className="text-sm md:text-lg font-semibold text-base-content hover:text-primary"
           >
             Our Services
-          </a>
-          <a
+          </Link>
+          <Link to='about-us'
             href="#about"
             className="text-sm md:text-lg font-semibold text-base-content hover:text-primary"
           >
             About Us
-          </a>
-          <a
+          </Link>
+          <Link
+          to='contact'
             href="#contact"
             className="text-sm md:text-lg font-semibold text-base-content hover:text-primary"
           >
             Contact Us
-          </a>
+          </Link>
         </nav>
 
         {/* Desktop Button */}
@@ -88,24 +93,24 @@ const Header = () => {
       {isOpen && (
         <nav className="lg:hidden bg-base-200 shadow-md">
           <div className="flex flex-col space-y-4 py-4 px-6">
-            <a
+            <Link to='services'
               href="#services"
               className="text-sm md:text-lg font-semibold text-base-content hover:text-primary"
             >
               Our Services
-            </a>
-            <a
+            </Link>
+            <Link to='about-us'
               href="#about"
               className="text-sm md:text-lg font-semibold text-base-content hover:text-primary"
             >
               About Us
-            </a>
-            <a
+            </Link>
+            <Link to='contact'
               href="#contact"
               className="text-sm md:text-lg font-semibold text-base-content hover:text-primary"
             >
               Contact Us
-            </a>
+            </Link>
             <Link to="#">
               <button className="btn btn-primary mt-4">Get Started</button>
             </Link>
