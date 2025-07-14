@@ -62,6 +62,9 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex space-x-8">
+          <Link to="/" className={`${isActive("/")}`}>
+            Home
+          </Link>
           <Link to="/services" className={`${isActive("/services")}`}>
             Our Services
           </Link>

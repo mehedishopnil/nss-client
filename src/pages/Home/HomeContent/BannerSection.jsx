@@ -1,33 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import AllGard1 from "../../../assets/image/BannerImg/AllGards-1.jpg";
+import AllGard2 from "../../../assets/image/BannerImg/AllGards-2.jpg";
+import AllGard3 from "../../../assets/image/BannerImg/AllGards-3.jpg";
+
+
 
 const BannerSection = () => {
+  const banners = [AllGard1, AllGard2, AllGard3];
 
-     const banners = [
-          "https://maxsecureltd.com/wp-content/uploads/2022/09/security-trained-photo.webp",
-          "https://eagleprotectivegroup.com/wp-content/uploads/2015/05/securityservices-1.jpg",
-          "https://www.checkxperts.com/blog/_next/image?url=https%3A%2F%2Fcxp-blog-images.s3.ap-southeast-1.amazonaws.com%2F1724492696_2024-08-24_14-44-20.jpeg&w=3840&q=75",
-        ];
-      
-        const [currentIndex, setCurrentIndex] = useState(0);
-      
-        useEffect(() => {
-          const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
-          }, 8000);
-      
-          return () => clearInterval(interval);
-        }, [banners.length]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-     return ( 
-          <div className="h-[450px] md:h-[550px] w-full relative">
-               {/* Banner Images */}
-      <div className="h-full w-full overflow-hidden relative">
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, [banners.length]);
+
+  return (
+    <div className="h-[450px] md:h-[550px] w-full relative">
+      {/* Banner Images. Fit image width to screen and center it */}
+      <div className="h-full w-full overflow-hidden relative flex items-center justify-center">
         {banners.map((banner, index) => (
           <img
             key={index}
             src={banner}
             alt={`Banner ${index + 1}`}
-            className={`absolute h-full w-full object-cover transition-opacity duration-1000 ${
+            className={`absolute w-full h-auto object-cover object-center transition-opacity duration-1000 ${
               index === currentIndex ? "opacity-100" : "opacity-0"
             }`}
           />
@@ -35,7 +35,7 @@ const BannerSection = () => {
       </div>
 
       {/* Overlay Text */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-70 px-4 text-center">
+      <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-60 px-4 text-center">
         <h1 className="text-white text-3xl md:text-5xl font-bold tracking-wider">
           Welcome to <span className="text-orange-500">NSS</span>
         </h1>
@@ -55,8 +55,8 @@ const BannerSection = () => {
           ></div>
         ))}
       </div>
-          </div>
-     );
+    </div>
+  );
 };
 
 export default BannerSection;
