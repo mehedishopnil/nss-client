@@ -19,7 +19,7 @@ const BannerSection = () => {
   }, [banners.length]);
 
   return (
-    <div className="h-[450px] md:h-[550px] w-full relative">
+    <div className="h-[250px] md:h-[550px] w-full relative">
       {/* Banner Images. Fit image width to screen and center it */}
       <div className="h-full w-full overflow-hidden relative flex items-center justify-center">
         {banners.map((banner, index) => (
