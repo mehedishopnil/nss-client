@@ -1,22 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FiMenu, FiUser, FiLogOut } from "react-icons/fi";
 import { useLocation, Link } from "react-router-dom";
 import { IoIosCall } from "react-icons/io";
 import { FaFacebook, FaYoutube, FaUserCircle } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import logo from "../../assets/image/nss-logo.png";
+import { AuthContext } from "../../providers/AuthProviders";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Simulate auth state
   const location = useLocation();
+  const { user, logOut } = useContext(AuthContext);
 
   const closeMenu = () => {
     setIsOpen(false);
   };
 
-  const toggleAuth = () => {
-    setIsLoggedIn(!isLoggedIn); // For demo purposes
+  const handleLogout = async () => {
+    try {
+      await logOut();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   const isActive = (path) =>
@@ -50,7 +55,7 @@ const Header = () => {
 
       {/* Main Header */}
       <div className="container mx-auto flex justify-between items-center py-4 px-2 md:px-6">
-        {/* Logo - Always on left */}
+        {/* Logo */}
         <Link to="/" className="flex items-center">
           <img src={logo} alt="Logo" className="w-12 md:w-16" />
           <div className="ml-2 md:ml-4">
@@ -83,7 +88,7 @@ const Header = () => {
 
         {/* Desktop Right Section - Auth/Contact */}
         <div className="hidden lg:flex items-center gap-6">
-          {/* Contact Info - Only icons */}
+          {/* Contact Info */}
           <div className="flex gap-2">
             <a
               href="tel:01848107019"
@@ -100,22 +105,34 @@ const Header = () => {
           </div>
 
           {/* Auth Buttons */}
-          {isLoggedIn ? (
-            <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                <FaUserCircle className="text-2xl text-orange-500" />
-              </label>
-              <ul
-                tabIndex={0}
-                className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
+          {user ? (
+            <div className="flex items-center gap-3 bg-white px-3 py-2 ">
+              {/* Profile Image */}
+              <Link
+                to="/profile"
+                className="w-10 h-10 rounded-full overflow-hidden border border-gray-300"
               >
-                <li>
-                  <button onClick={toggleAuth} className="text-error">
-                    <FiLogOut className="mr-2" />
-                    Logout
-                  </button>
-                </li>
-              </ul>
+                {user?.photoURL ? (
+                  <img
+                    src={user.photoURL}
+                    alt="User"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center w-full h-full bg-orange-100">
+                    <FaUserCircle className="text-2xl text-orange-500" />
+                  </div>
+                )}
+              </Link>
+
+              {/* Logout Button */}
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-1 text-sm text-gray-700 hover:text-orange-500 transition duration-200"
+              >
+                <FiLogOut className="text-lg" />
+                Logout
+              </button>
             </div>
           ) : (
             <div className="hidden md:flex gap-4 items-center">
@@ -135,36 +152,38 @@ const Header = () => {
 
         {/* Mobile Right Section - Contact/Auth/Hamburger */}
         <div className="flex items-center gap-4 lg:hidden">
-          {/* Contact Icons */}
-          <div className="flex gap-2">
-            <a href="tel:01848107019" className="text-gray-700">
-              <IoIosCall className="text-xl" />
-            </a>
-            <a href="mailto:nssbd24@gmail.com" className="text-gray-700">
-              <MdEmail className="text-xl" />
-            </a>
-          </div>
-
           {/* Auth Icon */}
-          {isLoggedIn ? (
-            <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                <FaUserCircle className="text-xl text-orange-500" />
-              </label>
-              <ul
-                tabIndex={0}
-                className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
+          {user ? (
+            <div className="flex items-center gap-3 bg-white px-3 py-2 ">
+              {/* Profile Image */}
+              <Link
+                to="/profile"
+                className="w-10 h-10 rounded-full overflow-hidden border border-gray-300"
               >
-                <li>
-                  <button onClick={toggleAuth} className="text-error">
-                    <FiLogOut className="mr-2" />
-                    Logout
-                  </button>
-                </li>
-              </ul>
+                {user?.photoURL ? (
+                  <img
+                    src={user.photoURL}
+                    alt="User"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center w-full h-full bg-orange-100">
+                    <FaUserCircle className="text-2xl text-orange-500" />
+                  </div>
+                )}
+              </Link>
+
+              {/* Logout Button */}
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-1 text-sm text-gray-700 hover:text-orange-500 transition duration-200"
+              >
+                <FiLogOut className="text-lg" />
+                Logout
+              </button>
             </div>
           ) : (
-            <Link to="/login">
+            <Link to="/log-in">
               <FiUser className="text-xl" />
             </Link>
           )}
@@ -179,52 +198,74 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
-      {isOpen && (
-        <nav className="lg:hidden bg-base-200 shadow-md">
-          <div className="flex flex-col space-y-4 py-4 px-6">
-            <Link to="/" className={`${isActive("/")}`} onClick={closeMenu}>
-              Home
-            </Link>
-            <Link
-              to="/services"
-              className={`${isActive("/services")}`}
-              onClick={closeMenu}
-            >
-              Our Services
-            </Link>
-            <Link
-              to="/about-us"
-              className={`${isActive("/about-us")}`}
-              onClick={closeMenu}
-            >
-              About Us
-            </Link>
-            <Link
-              to="/contact"
-              className={`${isActive("/contact")}`}
-              onClick={closeMenu}
-            >
-              Contact Us
-            </Link>
+      {/* Sliding Mobile Menu from Right */}
+      <div
+        className={`fixed top-0 right-0 h-72 w-72 bg-base-100 bg-white shadow-lg z-50 transform transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        {/* Close button */}
+        <div className="flex justify-end p-4">
+          <button
+            onClick={closeMenu}
+            className="text-2xl text-gray-600 hover:text-orange-500"
+          >
+            &times;
+          </button>
+        </div>
 
-            {!isLoggedIn && (
-              <div className="flex flex-col gap-3 mt-4 px-4 sm:px-6">
-                <Link to="/login" onClick={closeMenu}>
-                  <button className="w-full py-2 px-4 text-center text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-xl shadow-sm hover:bg-gray-100 transition-all">
-                    Login
-                  </button>
-                </Link>
-                <Link to="/signup" onClick={closeMenu}>
-                  <button className="w-full py-2 px-4 text-center text-sm font-medium text-white bg-orange-500 rounded-xl shadow-sm hover:bg-orange-600 transition-all">
-                    Sign Up
-                  </button>
-                </Link>
-              </div>
-            )}
+        {/* Menu Items */}
+        <div className="flex flex-col space-y-4 px-6">
+          <Link to="/" className={`${isActive("/")}`} onClick={closeMenu}>
+            Home
+          </Link>
+          <Link
+            to="/services"
+            className={`${isActive("/services")}`}
+            onClick={closeMenu}
+          >
+            Our Services
+          </Link>
+          <Link
+            to="/about-us"
+            className={`${isActive("/about-us")}`}
+            onClick={closeMenu}
+          >
+            About Us
+          </Link>
+          <Link
+            to="/contact"
+            className={`${isActive("/contact")}`}
+            onClick={closeMenu}
+          >
+            Contact Us
+          </Link>
+
+          {!user && (
+            <div className="flex flex-col gap-3 mt-4">
+              <Link to="/log-in" onClick={closeMenu}>
+                <button className="w-full py-2 px-4 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 transition-all">
+                  Login
+                </button>
+              </Link>
+              <Link to="/sign-up" onClick={closeMenu}>
+                <button className="w-full py-2 px-4 text-sm font-medium text-white bg-orange-500 rounded-lg hover:bg-orange-600 transition-all">
+                  Sign Up
+                </button>
+              </Link>
+            </div>
+          )}
+
+          <div className="flex gap-3 mt-4">
+            <a href="tel:01848107019" className="text-gray-700">
+              <IoIosCall className="text-xl" />
+            </a>
+            <a href="mailto:nssbd24@gmail.com" className="text-gray-700">
+              <MdEmail className="text-xl" />
+            </a>
           </div>
-        </nav>
-      )}
+        </div>
+      </div>
     </header>
   );
 };

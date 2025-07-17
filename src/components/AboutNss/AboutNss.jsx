@@ -6,11 +6,11 @@ const AboutNss = () => {
     <div className="container mx-auto px-4 py-24 flex flex-col md:flex-row items-center gap-8 lg:gap-12">
       {/* Left Image */}
       <div className="w-full md:w-1/2 flex justify-center">
-        <div className="relative w-full max-w-lg h-[600px] rounded-lg shadow-md  overflow-hidden">
+        <div className="hidden md:block md:relative w-full max-w-lg h-72 md:h-[600px] rounded-lg md:shadow-md  overflow-hidden">
           <img
             src={Guard1}
             alt="NSS Security Guard"
-            className="w-full h-[600px] object-cover object-top "
+            className=" md:w-full h-72 md:h-[600px] md:object-cover md:object-top "
             loading="lazy"
           />
         </div>
