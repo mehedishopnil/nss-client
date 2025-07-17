@@ -200,7 +200,7 @@ const Header = () => {
 
       {/* Sliding Mobile Menu from Right */}
       <div
-        className={`fixed top-0 right-0 h-72 w-72 bg-base-100 bg-white shadow-lg z-50 transform transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-auto w-72 bg-base-100 bg-white shadow-lg pb-5 z-50 transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
