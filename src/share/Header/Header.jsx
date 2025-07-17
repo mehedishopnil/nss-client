@@ -31,27 +31,6 @@ const Header = () => {
 
   return (
     <header className="bg-white shadow-md lg:sticky top-0 z-50">
-      {/* Sub-header - Only for desktop */}
-      <div className="hidden lg:flex justify-between items-center bg-orange-500 py-1 px-5">
-        <div className="flex gap-10 px-14">
-          <h1 className="flex items-center font-semibold text-lg gap-1 text-white tracking-wider">
-            <IoIosCall /> 01848107019
-          </h1>
-          <h1 className="flex items-center font-semibold text-lg gap-1 text-white tracking-wider">
-            <MdEmail /> nssbd24@gmail.com
-          </h1>
-        </div>
-
-        {/* Social Media Links */}
-        <div className="flex gap-3 text-white">
-          <Link to="#">
-            <FaFacebook className="text-lg" />
-          </Link>
-          <Link to="#">
-            <FaYoutube className="text-lg" />
-          </Link>
-        </div>
-      </div>
 
       {/* Main Header */}
       <div className="container mx-auto flex justify-between items-center py-4 px-2 md:px-6">
@@ -92,15 +71,9 @@ const Header = () => {
           <div className="flex gap-2">
             <a
               href="tel:01848107019"
-              className="text-gray-700 hover:text-orange-500"
+              className="flex gap-1 border bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600"
             >
-              <IoIosCall className="text-xl" />
-            </a>
-            <a
-              href="mailto:nssbd24@gmail.com"
-              className="text-gray-700 hover:text-orange-500"
-            >
-              <MdEmail className="text-xl" />
+              <IoIosCall className="text-xl" /> <span>018123121323</span>
             </a>
           </div>
 
@@ -200,7 +173,7 @@ const Header = () => {
 
       {/* Sliding Mobile Menu from Right */}
       <div
-        className={`fixed top-0 right-0 h-auto w-72 bg-base-100 bg-white shadow-lg pb-5 z-50 transform transition-transform duration-300 ${
+        className={`md:hidden fixed  top-0 right-0 h-auto w-72 bg-base-100 bg-white shadow-lg pb-5 z-50 transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
