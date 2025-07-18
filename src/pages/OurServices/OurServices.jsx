@@ -1,3 +1,4 @@
+import GuardsGallery from "../../components/GuardsGallery/GuardsGallery";
 import QuickContact from "../../components/QuickContact/QuickContact";
 import ServicesSection from "../../components/ServicesSection/ServicesSection";
 
@@ -5,7 +6,13 @@ import ServicesSection from "../../components/ServicesSection/ServicesSection";
 const OurServices = () => {
   return (
     <div>
-      <ServicesSection />
+      <div>
+        <ServicesSection />
+      </div>
+
+      <div>
+        <GuardsGallery />
+      </div>
        <QuickContact />
 
     </div>

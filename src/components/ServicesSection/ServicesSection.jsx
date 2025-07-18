@@ -37,7 +37,7 @@ const services = [
 const ServicesSection = () => {
   return (
     <div className="bg-gray-50">
-      <section className=" container w-1/2 mx-auto px-4 py-16">
+      <section className=" container md:w-1/2 mx-auto px-4 py-16">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-orange-600 mb-4">Our Security Services</h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
