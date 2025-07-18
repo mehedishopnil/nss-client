@@ -1,63 +1,82 @@
-import React from "react";
+import { FaCalendarAlt, FaHome, FaBuilding, FaUserShield } from 'react-icons/fa';
 
 const services = [
   {
     id: 1,
-    image: "https://png.pngtree.com/png-vector/20220611/ourmid/pngtree-security-management-icon-flat-design-security-services-technology-security-vector-png-image_22298144.png",
+    icon: <FaUserShield className="text-4xl text-orange-600" />,
     title: "Personal Security",
     content: "Providing trained and reliable security personnel for individuals requiring personal protection.",
-    link: "/personal-security", // Add a link for each service
+    link: "/personal-security",
   },
   {
     id: 2,
-    image: "https://cdn-icons-png.flaticon.com/512/2548/2548895.png",
+    icon: <FaBuilding className="text-4xl text-orange-600" />,
     title: "Corporate Security",
     content: "Ensuring the safety of corporate assets and employees with professional security solutions.",
     link: "/corporate-security",
   },
   {
     id: 3,
-    image: "https://cdn-icons-png.flaticon.com/512/6079/6079964.png",
+    icon: <FaCalendarAlt className="text-4xl text-orange-600" />,
     title: "Event Security",
     content: "Offering comprehensive security for events of all sizes to ensure smooth operations.",
     link: "/event-security",
   },
+  {
+    id: 4,
+    icon: <FaHome className="text-4xl text-orange-600" />,
+    title: "Residential Security",
+    content: "24/7 protection for homes and gated communities with trained security personnel.",
+    link: "/residential-security",
+  },
+  
 ];
+
+
 
 const ServicesSection = () => {
   return (
-    <section className="container mx-auto px-4 py-12">
-      <h1 className="text-3xl md:text-4xl font-bold text-center text-orange-500 mb-8">
-        Our Services
-      </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {services.map((service) => (
-          <a
-            key={service.id}
-            href={service.link}
-            className="flex flex-col items-center bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
-          >
-            {/* Image */}
-            <img
-              src={service.image}
-              alt={service.title}
-              className="w-48 h-48 object-cover"
-            />
-            {/* Title */}
-            <div className="p-4 text-center">
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                {service.title}
-              </h2>
-              {/* Content */}
-              <p className="text-gray-600 text-base leading-relaxed">
-                {service.content}
-              </p>
+    <div className="bg-gray-50">
+      <section className=" container w-1/2 mx-auto px-4 py-16">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-orange-600 mb-4">Our Security Services</h1>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Comprehensive protection solutions tailored to your specific security needs
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-4">
+          {services.map((service) => (
+            <div key={service.id} className="flex justify-center">
+              <a
+                href={service.link}
+                className="group bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full max-w-sm"
+              >
+              <div className="p-6">
+                <div className="flex justify-center mb-4">
+                  <div className="bg-orange-50 p-4 rounded-full group-hover:bg-orange-100 transition-colors">
+                    {service.icon}
+                  </div>
+                </div>
+                <h2 className="text-xl font-bold text-center text-gray-800 mb-3 group-hover:text-orange-600 transition-colors">
+                  {service.title}
+                </h2>
+                <p className="text-gray-600 text-center">
+                  {service.content}
+                </p>
+                <div className="mt-6 text-center">
+                  <button className="text-orange-600 font-semibold hover:underline">
+                    Learn More →
+                  </button>
+                </div>
+              </div>
+              </a>
             </div>
-          </a>
-        ))}
-      </div>
-    </section>
+          ))}
+        </div>
+      </section>
+      
+    </div>
   );
 };
-
 export default ServicesSection;
