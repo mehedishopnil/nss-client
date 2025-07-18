@@ -1,54 +1,61 @@
 import { useState, useEffect } from 'react';
 
+// Import all images
+import AllGards1 from '../../assets/image/BannerImg/AllGards-1.jpg';
+import AllGards2 from '../../assets/image/BannerImg/AllGards-2.jpg';
+import AllGards3 from '../../assets/image/BannerImg/AllGards-3.jpg';
+import AllGards4 from '../../assets/image/BannerImg/AllGards-4.jpg';
+import Guard1 from '../../assets/image/Guard-1.png';
+
 const GuardsGallery = () => {
   // Sample guard data - you can replace with actual data
   const guards = [
     {
       id: 1,
       name: "Professional Security Guard",
-      image: "/src/assets/image/BannerImg/AllGards-1.jpg",
+      image: AllGards1,
       role: "Corporate Security"
     },
     {
       id: 2,
       name: "Residential Security Expert",
-      image: "/src/assets/image/BannerImg/AllGards-2.jpg",
+      image: AllGards2,
       role: "Residential Security"
     },
     {
       id: 3,
       name: "Event Security Specialist",
-      image: "/src/assets/image/BannerImg/AllGards-3.jpg",
+      image: AllGards3,
       role: "Event Security"
     },
     {
       id: 4,
       name: "Personal Protection Officer",
-      image: "/src/assets/image/BannerImg/AllGards-4.jpg",
+      image: AllGards4,
       role: "Personal Security"
     },
     {
       id: 5,
       name: "Security Team Leader",
-      image: "/src/assets/image/Guard-1.png",
+      image: Guard1,
       role: "Team Leadership"
     },
     {
       id: 6,
       name: "Night Security Guard",
-      image: "/src/assets/image/BannerImg/AllGards-1.jpg",
+      image: AllGards1,
       role: "Night Security"
     },
     {
       id: 7,
       name: "Mobile Security Patrol",
-      image: "/src/assets/image/BannerImg/AllGards-2.jpg",
+      image: AllGards2,
       role: "Mobile Patrol"
     },
     {
       id: 8,
       name: "Access Control Specialist",
-      image: "/src/assets/image/BannerImg/AllGards-3.jpg",
+      image: AllGards3,
       role: "Access Control"
     }
   ];
@@ -117,7 +124,7 @@ const GuardsGallery = () => {
                         alt={guard.name}
                         className="w-full h-64 object-cover"
                         onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/300x400/f97316/ffffff?text=Security+Guard';
+                          e.target.src = Guard1;
                         }}
                       />
                     </div>
