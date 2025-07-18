@@ -5,7 +5,7 @@ import AllGards1 from '../../assets/image/BannerImg/AllGards-1.jpg';
 import AllGards2 from '../../assets/image/BannerImg/AllGards-2.jpg';
 import AllGards3 from '../../assets/image/BannerImg/AllGards-3.jpg';
 import AllGards4 from '../../assets/image/BannerImg/AllGards-4.jpg';
-import Guard1 from '../../assets/image/Guard-1.png';
+
 
 const GuardsGallery = () => {
   // Sample guard data - you can replace with actual data
@@ -34,12 +34,7 @@ const GuardsGallery = () => {
       image: AllGards4,
       role: "Personal Security"
     },
-    {
-      id: 5,
-      name: "Security Team Leader",
-      image: Guard1,
-      role: "Team Leadership"
-    },
+    
     {
       id: 6,
       name: "Night Security Guard",
