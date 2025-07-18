@@ -15,6 +15,9 @@ import {
   FaCarAlt,
 } from "react-icons/fa";
 import AllGards from "../../assets/image/BannerImg/AllGards-wide-range.jpg";
+import AboutNss from "../../components/AboutNss/AboutNss";
+import QuickContact from "../../components/QuickContact/QuickContact";
+import { Link } from "react-router-dom";
 
 const AboutUs = () => {
   return (
@@ -35,17 +38,10 @@ const AboutUs = () => {
 
       {/* Content */}
       <div className="max-w-6xl mx-auto px-6 py-16">
-        {/* Who We Are */}
-        <section className="mb-20">
-          <h2 className="text-3xl font-bold text-orange-600 mb-4">Who We Are</h2>
-          <div className="bg-base-200 rounded-2xl p-8 shadow-md text-lg leading-relaxed">
-            We are a premier security service agency committed to providing
-            top-tier protection solutions for businesses and individuals. With
-            years of experience in the industry, our team of highly trained
-            professionals delivers unmatched security services tailored to your
-            specific needs.
-          </div>
-        </section>
+
+          {/* About NSS */}
+          <AboutNss />
+
 
         {/* Our Mission */}
         <section className="mb-20">
@@ -57,6 +53,8 @@ const AboutUs = () => {
             their security is in expert hands.
           </div>
         </section>
+
+        
 
         {/* Why Choose Us */}
         <section className="mb-20 text-center">
@@ -155,38 +153,7 @@ const AboutUs = () => {
 
         {/* Quick Contact */}
         <section className="mb-20 text-center">
-          <h2 className="text-3xl font-bold text-orange-600 mb-8">Quick Contact</h2>
-          <div className="bg-base-200 rounded-2xl shadow-md p-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[{
-                Icon: FaPhoneAlt,
-                label: "Phone",
-                value: "+1 (123) 456-7890"
-              }, {
-                Icon: FaEnvelope,
-                label: "Email",
-                value: "info@securityagency.com"
-              }, {
-                Icon: FaMapMarkerAlt,
-                label: "Address",
-                value: "123 Security Plaza, Safe City, SC 12345"
-              }, {
-                Icon: FaClock,
-                label: "Availability",
-                value: "24/7 Emergency Service"
-              }].map(({ Icon, label, value }, idx) => (
-                <div key={idx} className="flex items-center space-x-4">
-                  <div className="p-4 rounded-full bg-white text-gray-600">
-                    <Icon className="text-2xl" />
-                  </div>
-                  <div className="text-left">
-                    <h3 className="text-lg font-semibold">{label}</h3>
-                    <p className="text-base opacity-80">{value}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <QuickContact />
         </section>
 
         {/* CTA */}
@@ -198,7 +165,9 @@ const AboutUs = () => {
             <p className="text-lg mb-6">
               Contact us today for a free security consultation
             </p>
+            <Link to='/contact'>
             <button className="btn  btn-lg">Get a Free Quote</button>
+            </Link>
           </div>
         </section>
       </div>

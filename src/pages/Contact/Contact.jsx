@@ -33,7 +33,7 @@ const Contact = () => {
         <motion.a
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          href="tel:+1234567890"
+          href="tel:+01848306085"
           className="bg-green-500 text-white p-3 rounded-full shadow-lg flex items-center justify-center"
         >
           <FaPhone className="text-xl" />
@@ -41,7 +41,7 @@ const Contact = () => {
         <motion.a
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          href="mailto:info@example.com"
+          href="mailto:nssbd@gmail.com"
           className="bg-blue-500 text-white p-3 rounded-full shadow-lg flex items-center justify-center"
         >
           <FaEnvelope className="text-xl" />
@@ -71,7 +71,7 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold text-gray-800">Address</h3>
                     <p className="text-gray-600 mt-1">
-                      123 Main Street, City, Country
+                      Khulshi, Chattogram
                     </p>
                   </div>
                 </div>
@@ -83,16 +83,16 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold text-gray-800">Phone</h3>
                     <a
-                      href="tel:+1234567890"
+                      href="tel:+01848306085"
                       className="text-blue-500 hover:underline block mt-1"
                     >
-                      +123 456 7890
+                      01848306085
                     </a>
                     <a
-                      href="tel:+9876543210"
+                      href="tel:+01848306085"
                       className="text-blue-500 hover:underline block mt-1"
                     >
-                      +987 654 3210
+                      01848306085
                     </a>
                   </div>
                 </div>
@@ -104,17 +104,12 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold text-gray-800">Email</h3>
                     <a
-                      href="mailto:info@example.com"
+                      href="mailto:nssbd@gmail.com"
                       className="text-blue-500 hover:underline block mt-1"
                     >
-                      info@example.com
+                      nssbd@gmail.com
                     </a>
-                    <a
-                      href="mailto:support@example.com"
-                      className="text-blue-500 hover:underline block mt-1"
-                    >
-                      support@example.com
-                    </a>
+                    
                   </div>
                 </div>
 
@@ -127,10 +122,9 @@ const Contact = () => {
                       Business Hours
                     </h3>
                     <p className="text-gray-600 mt-1">
-                      Monday - Friday: 9am - 5pm
+                      Saturday - Thursday: 9am - 5pm
                     </p>
-                    <p className="text-gray-600 mt-1">Saturday: 10am - 2pm</p>
-                    <p className="text-gray-600 mt-1">Sunday: Closed</p>
+                    <p className="text-gray-600 mt-1">Friday: Closed</p>
                   </div>
                 </div>
               </div>
@@ -140,15 +134,17 @@ const Contact = () => {
                 <motion.a
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  href="tel:+1234567890"
+                  href="tel:+01848306085"
                   className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center transition-all"
                 >
                   <FaPhone className="mr-2" /> Call Now
                 </motion.a>
+
+
                 <motion.a
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  href="mailto:info@example.com"
+                  href="mailto:nssbd@gmail.com"
                   className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center transition-all"
                 >
                   <FaEnvelope className="mr-2" /> Email Us
