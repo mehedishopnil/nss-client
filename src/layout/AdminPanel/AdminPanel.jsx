@@ -2,12 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate, Outlet } from "react-router-dom";
 import { Transition } from "@headlessui/react";
 import { BsFillMenuButtonWideFill, BsBellFill } from "react-icons/bs";
-import { FaHome, FaWpforms } from "react-icons/fa";
-import { IoMdClose } from "react-icons/io";
-import { RiAdminLine } from "react-icons/ri";
-import { AiOutlineUsergroupAdd } from "react-icons/ai";
-import { MdLibraryBooks, MdViewQuilt } from "react-icons/md";
 import { HiOutlineLogout, HiOutlineUserCircle } from "react-icons/hi";
+import AdminSidebar from "../../share/AdminSidebar/AdminSidebar";
+import AdminMobileMenu from "../../share/AdminMobileMenu/AdminMobileMenu";
 
 const AdminPanel = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -22,10 +19,7 @@ const AdminPanel = () => {
     setProfileDropdownOpen(!profileDropdownOpen);
   };
 
-  const handleMenuItemClick = (path) => {
-    setMobileMenuOpen(false);
-    navigate(path);
-  };
+  
 
   const handleLogout = () => {
     // Add your logout logic here
@@ -35,74 +29,8 @@ const AdminPanel = () => {
   return (
     <div className="lg:flex h-screen bg-gray-50">
       {/* Sidebar for LG screens */}
-      <div className="hidden lg:flex lg:w-64 lg:flex-shrink-0 bg-gray-800 h-screen flex-col">
-        <div className="p-4 flex items-center justify-center border-b border-gray-700">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-              RCI
-            </div>
-            <span className="text-white font-bold text-xl">AdminPanel</span>
-          </Link>
-        </div>
-        
-        <ul className="menu p-4 text-gray-300 flex-1">
-          <li className="mb-2">
-            <Link 
-              to="admin-panel/admin-overview" 
-              className="flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors"
-            >
-              <MdViewQuilt className="text-lg mr-3" /> 
-              <span>Admin Overview</span>
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link 
-              to="admin-panel/users-bookings" 
-              className="flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors"
-            >
-              <MdLibraryBooks className="text-lg mr-3" /> 
-              <span>Users Bookings</span>
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link 
-              to="admin-panel/user-control" 
-              className="flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors"
-            >
-              <AiOutlineUsergroupAdd className="text-lg mr-3" /> 
-              <span>User Control</span>
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link 
-              to="admin-panel/resort-input-form" 
-              className="flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors"
-            >
-              <FaWpforms className="text-lg mr-3" /> 
-              <span>Resort Input Form</span>
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link 
-              to="admin-panel/admin-control" 
-              className="flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors"
-            >
-              <RiAdminLine className="text-lg mr-3" /> 
-              <span>Admin Control</span>
-            </Link>
-          </li>
-        </ul>
-
-        <div className="p-4 border-t border-gray-700">
-          <Link 
-            to="/" 
-            className="flex items-center p-3 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors"
-          >
-            <FaHome className="text-lg mr-3" /> 
-            <span>Back to Home</span>
-          </Link>
-        </div>
-      </div>
+      
+      <AdminSidebar />
 
       {/* Main content area */}
       <div className="flex-1 flex flex-col overflow-hidden">
@@ -188,74 +116,9 @@ const AdminPanel = () => {
           leaveTo="-translate-x-full"
           className="lg:hidden fixed inset-0 z-40"
         >
-          <div className="bg-gray-800 text-white h-full w-64 p-4">
-            <div className="flex items-center justify-between mb-8">
-              <Link to="/" className="flex items-center space-x-2">
-                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-                  RCI
-                </div>
-                <span className="text-white font-bold text-xl">AdminPanel</span>
-              </Link>
-              <button 
-                onClick={toggleMobileMenu} 
-                className="text-2xl text-gray-300"
-              >
-                <IoMdClose />
-              </button>
-            </div>
-
-            <ul className="space-y-2">
-              <li>
-                <button 
-                  onClick={() => handleMenuItemClick("/admin-panel/admin-overview")}
-                  className="flex items-center w-full p-3 rounded-lg hover:bg-gray-700 transition-colors"
-                >
-                  <MdViewQuilt className="text-lg mr-3" /> Admin Overview
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => handleMenuItemClick("/admin-panel/users-bookings")}
-                  className="flex items-center w-full p-3 rounded-lg hover:bg-gray-700 transition-colors"
-                >
-                  <MdLibraryBooks className="text-lg mr-3" /> Users Bookings
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => handleMenuItemClick("/admin-panel/user-control")}
-                  className="flex items-center w-full p-3 rounded-lg hover:bg-gray-700 transition-colors"
-                >
-                  <AiOutlineUsergroupAdd className="text-lg mr-3" /> User Control
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => handleMenuItemClick("/admin-panel/resort-input-form")}
-                  className="flex items-center w-full p-3 rounded-lg hover:bg-gray-700 transition-colors"
-                >
-                  <FaWpforms className="text-lg mr-3" /> Resort Input Form
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => handleMenuItemClick("/admin-panel/admin-control")}
-                  className="flex items-center w-full p-3 rounded-lg hover:bg-gray-700 transition-colors"
-                >
-                  <RiAdminLine className="text-lg mr-3" /> Admin Control
-                </button>
-              </li>
-            </ul>
-
-            <div className="mt-8 pt-4 border-t border-gray-700">
-              <button 
-                onClick={() => handleMenuItemClick("/")}
-                className="flex items-center w-full p-3 rounded-lg hover:bg-gray-700 transition-colors"
-              >
-                <FaHome className="text-lg mr-3" /> Back to Home
-              </button>
-            </div>
-          </div>
+          <AdminMobileMenu 
+          
+          />
         </Transition>
 
         {/* Content area */}

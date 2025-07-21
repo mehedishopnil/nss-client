@@ -8,6 +8,7 @@ import Login from "../pages/Login/Login";
 import SignUp from "../pages/SignUp/SignUp";
 import AdminPanel from "../layout/AdminPanel/AdminPanel";
 import Profile from "../pages/Profile/Profile";
+import UserProfile from "../pages/UserProfile/UserProfile";
 
 export const router = createBrowserRouter([
   {
@@ -19,7 +20,8 @@ export const router = createBrowserRouter([
       { path: "/contact", element: <Contact/> },
       { path: "/about-us", element: <AboutUs/> },
       { path: "/log-in", element: <Login/> },
-      { path: "/sign-up", element: <SignUp/> }
+      { path: "/sign-up", element: <SignUp/> },
+      { path: "/user-profile", element: <UserProfile/>}
     ],
   },
   {

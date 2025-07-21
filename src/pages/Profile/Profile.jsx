@@ -1,13 +1,16 @@
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProviders";
+import Loading from "../../components/Loading";
 
 const Profile = () => {
     
-    const {user} = useContext(AuthContext)
+    const { user, loading } = useContext(AuthContext);
 
-    const {photoURL:image, displayName:name} = user
+  if (loading) return <div className="text-center py-10"><Loading/></div>;
 
-    console.log(user);
+  if (!user) return <div className="text-center py-10 text-red-600">User not found</div>;
+
+  const { photoURL: image, displayName: name, role, email, address, phone, name: fullName, joinDate } = user;
 
     return (
         <div className="min-h-screen bg-gray-50 py-8">

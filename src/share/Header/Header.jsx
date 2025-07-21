@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { FiMenu, FiUser, FiLogOut } from "react-icons/fi";
 import { useLocation, Link } from "react-router-dom";
 import { IoIosCall } from "react-icons/io";
-import { FaFacebook, FaYoutube, FaUserCircle } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import logo from "../../assets/image/nss-logo.png";
 import { AuthContext } from "../../providers/AuthProviders";
@@ -10,7 +10,7 @@ import { AuthContext } from "../../providers/AuthProviders";
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { user, logOut } = useContext(AuthContext);
+  const { user, role, logOut } = useContext(AuthContext);
 
   const closeMenu = () => {
     setIsOpen(false);
@@ -31,7 +31,6 @@ const Header = () => {
 
   return (
     <header className="bg-white shadow-md lg:sticky top-0 z-50">
-
       {/* Main Header */}
       <div className="container mx-auto flex justify-between items-center py-4 px-2 md:px-6">
         {/* Logo */}
@@ -79,10 +78,12 @@ const Header = () => {
 
           {/* Auth Buttons */}
           {user ? (
-            <div className="flex items-center gap-3 bg-white px-3 py-2 ">
+            <div className="flex items-center gap-3 bg-white px-3 py-2">
               {/* Profile Image */}
               <Link
-                to="/admin-panel/profile"
+                to={
+                  role === "admin" ? "/admin-panel/profile" : "/user-profile"
+                } // ✅ Conditionally redirect based on role
                 className="w-10 h-10 rounded-full overflow-hidden border border-gray-300"
               >
                 {user?.photoURL ? (
@@ -130,7 +131,7 @@ const Header = () => {
             <div className="flex items-center gap-3 bg-white px-3 py-2 ">
               {/* Profile Image */}
               <Link
-                to="/profile"
+                to="/user-profile"
                 className="w-10 h-10 rounded-full overflow-hidden border border-gray-300"
               >
                 {user?.photoURL ? (

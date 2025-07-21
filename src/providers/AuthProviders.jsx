@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
   const googleProvider = new GoogleAuthProvider();
   const API_URL = import.meta.env.VITE_Api_link;
 
-  console.log(role)
+  console.log(user)
 
   const checkUserExists = async (email) => {
     try {
