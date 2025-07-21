@@ -6,6 +6,8 @@ import Contact from "../pages/Contact/Contact";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import Login from "../pages/Login/Login";
 import SignUp from "../pages/SignUp/SignUp";
+import AdminPanel from "../layout/AdminPanel/AdminPanel";
+import Profile from "../pages/Profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -20,4 +22,14 @@ export const router = createBrowserRouter([
       { path: "/sign-up", element: <SignUp/> }
     ],
   },
+  {
+    path:"admin-panel",
+    element: <AdminPanel />,
+    children: [
+      {
+        path: "profile",
+        element: <Profile />
+      }
+    ]
+  }
 ]);
