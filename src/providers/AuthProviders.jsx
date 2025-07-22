@@ -11,26 +11,56 @@ import {
   updateProfile,
 } from "firebase/auth";
 
-// Creating context to provide authentication globally
 export const AuthContext = createContext();
 
-// AuthProvider component to wrap around app
 const AuthProvider = ({ children }) => {
-  // States
-  const [user, setUser] = useState(null);             // Firebase + DB user
-  const [loading, setLoading] = useState(true);       // Loading state
-  const [role, setRole] = useState(null);             // Role: "admin" or "user"
-  const [allUsers, setAllUsers] = useState(null);     // All users (admin only)
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState(null);
+  const [allUsers, setAllUsers] = useState([]);
 
-  console.log(allUsers)
-  console.log(role)
-
-  // Firebase Auth & Google provider
   const auth = getAuth(app);
   const googleProvider = new GoogleAuthProvider();
-
-  // Backend API base URL from environment
   const API_URL = import.meta.env.VITE_Api_link;
+
+
+  // 🔄 Fetch all users (admin only)
+ const fetchAllUsers = async (email) => {
+  if (!email) {
+    throw new Error("Authentication required");
+  }
+
+  setLoading(true);
+  try {
+    const response = await fetch(`${API_URL}/users?email=${email}`);
+
+    if (response.status === 403) {
+      throw new Error("Admin privileges required");
+    }
+    if (!response.ok) {
+      throw new Error("Failed to fetch users");
+    }
+
+    const users = await response.json();
+    setAllUsers(users);
+    return users;
+  } catch (error) {
+    console.error("FetchAllUsers error:", error);
+    setAllUsers([]);
+    throw error;
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+  // 🔄 Refresh users list (wrapper for fetchAllUsers)
+const refreshUsers = async () => {
+  if (role === "admin" && user?.email) {
+    await fetchAllUsers(user.email);
+  }
+};
+
 
   // 🔍 Check if a user exists in DB by email
   const checkUserExists = async (email) => {
@@ -66,7 +96,11 @@ const AuthProvider = ({ children }) => {
       const userExists = await checkUserExists(email);
       if (userExists) throw new Error("User already exists");
 
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       await updateProfile(auth.currentUser, { displayName: name });
 
       const userData = {
@@ -101,7 +135,11 @@ const AuthProvider = ({ children }) => {
   const signIn = async (email, password) => {
     setLoading(true);
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const response = await fetch(`${API_URL}/users/${email}`);
       if (!response.ok) throw new Error("Failed to fetch user data");
 
@@ -165,82 +203,58 @@ const AuthProvider = ({ children }) => {
     return signOut(auth).finally(() => setLoading(false));
   };
 
- // 📥 Fetch all users — accessible only by admin users
-const fetchAllUsers = async () => {
-  setLoading(true);
-  try {
-    // ✅ Ensure user is logged in
-    if (!user?.email) throw new Error("No authenticated user");
-
-    // ✅ Step 1: Verify if the current user is an admin
-    const adminCheckRes = await fetch(`${API_URL}/users?email=${user.email}`);
-    if (!adminCheckRes.ok) throw new Error("Failed to verify admin status");
-
-    const adminCheckData = await adminCheckRes.json();
-
-    // ✅ Step 2: If user is not admin, throw error
-    if (!adminCheckData?.isAdmin) throw new Error("Unauthorized: Admin access required");
-
-    // ✅ Step 3: Fetch all users (admin authorized)
-    // The backend is designed to return all users if the requester is admin and passes their email
-    const usersResponse = await fetch(`${API_URL}/users?email=${user.email}`);
-    if (!usersResponse.ok) throw new Error("Failed to fetch user list");
-
-    const allUsersData = await usersResponse.json();
-
-    // ✅ Step 4: Update state and return
-    setAllUsers(allUsersData);
-    return allUsersData;
-  } catch (error) {
-    console.error("❌ Error fetching all users:", error);
-    throw error;
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-  // 🧠 Auth state change listener (auto-login/logout)
+  // Update auth state listener to refresh users when admin logs in
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        try {
-          const response = await fetch(`${API_URL}/users/${currentUser.email}`);
-          const userData = response.ok ? await response.json() : null;
-          const fetchedRole = await fetchUserRole(currentUser.email);
-          setUser(userData ? { ...currentUser, ...userData } : currentUser);
-          setRole(fetchedRole);
-        } catch (error) {
-          console.error("Failed to fetch user data:", error);
-          setUser(currentUser);
-          setRole("user");
-        }
-      } else {
-        setUser(null);
-        setRole(null);
-      }
-      setLoading(false);
-    });
+  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    if (currentUser) {
+      try {
+        const response = await fetch(`${API_URL}/users/${currentUser.email}`);
+        const userData = response.ok ? await response.json() : null;
+        const fetchedRole = await fetchUserRole(currentUser.email);
 
-    return () => unsubscribe();
-  }, [auth, API_URL]);
+        setUser(userData ? { ...currentUser, ...userData } : currentUser);
+        setRole(fetchedRole);
+
+        if (fetchedRole === "admin") {
+          await fetchAllUsers(currentUser.email); // ✅ pass email explicitly
+        }
+      } catch (error) {
+        console.error("Auth state error:", error);
+        setUser(currentUser);
+        setRole("user");
+      }
+    } else {
+      setUser(null);
+      setRole(null);
+      setAllUsers([]);
+    }
+    setLoading(false);
+  });
+
+  return () => unsubscribe();
+}, [auth, API_URL]);
+
 
   // 🌍 Exporting all authentication context
   const authInfo = {
     user,
-    
     role,
-    isAuthenticated: !!user,
+    allUsers,
     loading,
+    isAuthenticated: !!user,
+    isAdmin: role === "admin", // ✅ Add this
     createUser,
     signIn,
     googleSignIn,
     logOut,
-    fetchAllUsers,  // ✅ Make sure this is exposed
-    allUsers,       // ✅ Exposing stored allUsers for components
+    fetchAllUsers,
+    refreshUsers,
   };
 
-  return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>;
+
+  return (
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;
