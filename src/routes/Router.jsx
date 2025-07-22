@@ -10,6 +10,8 @@ import AdminPanel from "../layout/AdminPanel/AdminPanel";
 import Profile from "../pages/Profile/Profile";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import AdminOverview from "../pages/AdminOverview/AdminOverview";
+import UserControl from "../pages/UserControl/UserControl";
+import AdminControl from "../pages/AdminControl/AdminControl";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +38,14 @@ export const router = createBrowserRouter([
       {
         path: "admin-overview",
         element: <AdminOverview />
+      },
+      {
+        path: "user-control",
+        element: <UserControl />
+      },
+      {
+        path: "admin-control",
+        element: <AdminControl />
       }
     ]
   }

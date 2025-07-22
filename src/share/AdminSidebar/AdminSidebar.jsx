@@ -29,15 +29,7 @@ const AdminSidebar = () => {
                           <span>Admin Overview</span>
                         </Link>
                       </li>
-                      <li className="mb-2">
-                        <Link 
-                          to="/users-bookings" 
-                          className="flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors"
-                        >
-                          <MdLibraryBooks className="text-lg mr-3" /> 
-                          <span>Users Bookings</span>
-                        </Link>
-                      </li>
+                      
                       <li className="mb-2">
                         <Link 
                           to="admin-panel/user-control" 

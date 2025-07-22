@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../providers/AuthProviders';
 import { FiUserCheck, FiRefreshCw, FiActivity } from 'react-icons/fi';
+import Loading from '../../components/Loading';
 
 const AdminOverview = () => {
   const { user, allUsers, fetchAllUsers, loading } = useContext(AuthContext);
@@ -24,7 +25,7 @@ const AdminOverview = () => {
   if (loading && !allUsers) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        <Loading />
       </div>
     );
   }
@@ -150,34 +151,6 @@ const AdminOverview = () => {
         </div>
       </div>
 
-      {/* Recent Activity (placeholder) */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
-        <div className="space-y-4">
-          <div className="flex items-start">
-            <div className="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-              <FiActivity className="text-blue-600" />
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-900">
-                System updated to version 2.1
-              </p>
-              <p className="text-sm text-gray-500">2 hours ago</p>
-            </div>
-          </div>
-          <div className="flex items-start">
-            <div className="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-              <FiUserCheck className="text-green-600" />
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-900">
-                New user registered: john.doe@example.com
-              </p>
-              <p className="text-sm text-gray-500">5 hours ago</p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
