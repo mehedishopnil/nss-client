@@ -12,6 +12,8 @@ const Header = () => {
   const location = useLocation();
   const { user, role, logOut } = useContext(AuthContext);
 
+  console.log(role)
+
   const closeMenu = () => {
     setIsOpen(false);
   };
@@ -24,6 +26,7 @@ const Header = () => {
     }
   };
 
+  // Function to determine active link styles
   const isActive = (path) =>
     location.pathname === path
       ? "text-orange-500 font-bold border-b-2 border-primary"
@@ -52,15 +55,35 @@ const Header = () => {
             <Link to="/" className={`${isActive("/")}`}>
               Home
             </Link>
-            <Link to="/services" className={`${isActive("/services")}`}>
-              Our Services
-            </Link>
-            <Link to="/about-us" className={`${isActive("/about-us")}`}>
-              About Us
-            </Link>
-            <Link to="/contact" className={`${isActive("/contact")}`}>
-              Contact Us
-            </Link>
+
+            {role === "admin" ? (
+              <>
+                <Link
+                  to="/admin-panel"
+                  className={`${isActive("/admin-panel")}`}
+                >
+                  Admin Panel
+                </Link>
+                <Link
+                  to="/admin-panel/profile"
+                  className={`${isActive("/admin-panel/profile")}`}
+                >
+                  Profile
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/services" className={`${isActive("/services")}`}>
+                  Our Services
+                </Link>
+                <Link to="/about-us" className={`${isActive("/about-us")}`}>
+                  About Us
+                </Link>
+                <Link to="/contact" className={`${isActive("/contact")}`}>
+                  Contact Us
+                </Link>
+              </>
+            )}
           </div>
         </nav>
 
@@ -81,9 +104,7 @@ const Header = () => {
             <div className="flex items-center gap-3 bg-white px-3 py-2">
               {/* Profile Image */}
               <Link
-                to={
-                  role === "admin" ? "/admin-panel/profile" : "/user-profile"
-                } // ✅ Conditionally redirect based on role
+                to={role === "admin" ? "/admin-panel/profile" : "/user-profile"} // ✅ Conditionally redirect based on role
                 className="w-10 h-10 rounded-full overflow-hidden border border-gray-300"
               >
                 {user?.photoURL ? (
@@ -193,41 +214,48 @@ const Header = () => {
           <Link to="/" className={`${isActive("/")}`} onClick={closeMenu}>
             Home
           </Link>
-          <Link
-            to="/services"
-            className={`${isActive("/services")}`}
-            onClick={closeMenu}
-          >
-            Our Services
-          </Link>
-          <Link
-            to="/about-us"
-            className={`${isActive("/about-us")}`}
-            onClick={closeMenu}
-          >
-            About Us
-          </Link>
-          <Link
-            to="/contact"
-            className={`${isActive("/contact")}`}
-            onClick={closeMenu}
-          >
-            Contact Us
-          </Link>
 
-          {!user && (
-            <div className="flex flex-col gap-3 mt-4">
-              <Link to="/log-in" onClick={closeMenu}>
-                <button className="w-full py-2 px-4 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 transition-all">
-                  Login
-                </button>
+          {role === "admin" ? (
+            <>
+              <Link
+                to="/admin-panel"
+                className={`${isActive("/admin-panel")}`}
+                onClick={closeMenu}
+              >
+                Admin Panel
               </Link>
-              <Link to="/sign-up" onClick={closeMenu}>
-                <button className="w-full py-2 px-4 text-sm font-medium text-white bg-orange-500 rounded-lg hover:bg-orange-600 transition-all">
-                  Sign Up
-                </button>
+              <Link
+                to="/admin-panel/profile"
+                className={`${isActive("/admin-panel/profile")}`}
+                onClick={closeMenu}
+              >
+                Profile
               </Link>
-            </div>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/services"
+                className={`${isActive("/services")}`}
+                onClick={closeMenu}
+              >
+                Our Services
+              </Link>
+              <Link
+                to="/about-us"
+                className={`${isActive("/about-us")}`}
+                onClick={closeMenu}
+              >
+                About Us
+              </Link>
+              <Link
+                to="/contact"
+                className={`${isActive("/contact")}`}
+                onClick={closeMenu}
+              >
+                Contact Us
+              </Link>
+            </>
           )}
 
           <div className="flex gap-3 mt-4">

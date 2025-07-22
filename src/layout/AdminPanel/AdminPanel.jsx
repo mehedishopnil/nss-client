@@ -5,6 +5,7 @@ import { BsFillMenuButtonWideFill, BsBellFill } from "react-icons/bs";
 import { HiOutlineLogout, HiOutlineUserCircle } from "react-icons/hi";
 import AdminSidebar from "../../share/AdminSidebar/AdminSidebar";
 import AdminMobileMenu from "../../share/AdminMobileMenu/AdminMobileMenu";
+import Logo from "../../assets/image/nss-logo.png";
 
 const AdminPanel = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
