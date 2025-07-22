@@ -22,7 +22,7 @@ const AdminSidebar = () => {
                     <ul className="menu p-4 text-gray-300 flex-1">
                       <li className="mb-2">
                         <Link 
-                          to="admin-panel/admin-overview" 
+                          to="/admin-panel/admin-overview" 
                           className="flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors"
                         >
                           <MdViewQuilt className="text-lg mr-3" /> 
@@ -31,7 +31,7 @@ const AdminSidebar = () => {
                       </li>
                       <li className="mb-2">
                         <Link 
-                          to="admin-panel/users-bookings" 
+                          to="/users-bookings" 
                           className="flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors"
                         >
                           <MdLibraryBooks className="text-lg mr-3" /> 

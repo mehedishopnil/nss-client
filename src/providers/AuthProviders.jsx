@@ -242,7 +242,7 @@ const refreshUsers = async () => {
     allUsers,
     loading,
     isAuthenticated: !!user,
-    isAdmin: role === "admin", // ✅ Add this
+    isAdmin: role === "admin",
     createUser,
     signIn,
     googleSignIn,

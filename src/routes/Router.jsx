@@ -9,6 +9,7 @@ import SignUp from "../pages/SignUp/SignUp";
 import AdminPanel from "../layout/AdminPanel/AdminPanel";
 import Profile from "../pages/Profile/Profile";
 import UserProfile from "../pages/UserProfile/UserProfile";
+import AdminOverview from "../pages/AdminOverview/AdminOverview";
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
       {
         path: "profile",
         element: <Profile />
+      },
+      {
+        path: "admin-overview",
+        element: <AdminOverview />
       }
     ]
   }
