@@ -72,36 +72,23 @@ const AdminPanel = () => {
 
                 {/* Dropdown Panel */}
                 <Transition
-                  show={profileDropdownOpen}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
-                  className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+                  as="div"
+                  show={mobileMenuOpen}
+                  enter="transition-transform duration-300"
+                  enterFrom="-translate-x-full"
+                  enterTo="translate-x-0"
+                  leave="transition-transform duration-300"
+                  leaveFrom="translate-x-0"
+                  leaveTo="-translate-x-full"
                 >
-                  <div className="py-1">
-                    <Link
-                      to="/admin-panel/profile"
-                      onClick={() => setProfileDropdownOpen(false)}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Your Profile
-                    </Link>
-                    <Link
-                      to="/admin-panel/settings"
-                      onClick={() => setProfileDropdownOpen(false)}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Settings
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-                    >
-                      <HiOutlineLogout className="mr-2" /> Sign out
-                    </button>
+                  <div className="lg:hidden fixed inset-0 z-40">
+                    <div className="absolute w-64 h-full z-50">
+                      <AdminMobileMenu />
+                    </div>
+                    <div
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="absolute inset-0 bg-black bg-opacity-25"
+                    />
                   </div>
                 </Transition>
               </div>
@@ -110,24 +97,18 @@ const AdminPanel = () => {
         </header>
 
         {/* Mobile Sidebar Menu */}
-        <Transition
-          show={mobileMenuOpen}
-          enter="transition-transform duration-300"
-          enterFrom="-translate-x-full"
-          enterTo="translate-x-0"
-          leave="transition-transform duration-300"
-          leaveFrom="translate-x-0"
-          leaveTo="-translate-x-full"
-          className="lg:hidden fixed inset-0 z-40"
-        >
-          <div className="absolute w-64 h-full">
-            <AdminMobileMenu />
-            <div
-              onClick={() => setMobileMenuOpen(false)}
-              className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-25"
-            />
-          </div>
-        </Transition>
+        {mobileMenuOpen && (
+  <div className="lg:hidden fixed inset-0 z-40">
+    <div className="absolute w-64 h-full z-50 bg-white shadow-md">
+      <AdminMobileMenu />
+    </div>
+    <div
+      onClick={() => setMobileMenuOpen(false)}
+      className="absolute inset-0 bg-black bg-opacity-25"
+    />
+  </div>
+)}
+
 
         {/* Page Content */}
         <main className="flex-1 overflow-y-auto p-4 bg-gray-50">
