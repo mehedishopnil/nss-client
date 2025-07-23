@@ -10,6 +10,7 @@ import {
   signInWithPopup,
   updateProfile,
 } from "firebase/auth";
+import { all } from "axios";
 
 export const AuthContext = createContext();
 
@@ -22,6 +23,8 @@ const AuthProvider = ({ children }) => {
   const auth = getAuth(app);
   const googleProvider = new GoogleAuthProvider();
   const API_URL = import.meta.env.VITE_Api_link;
+
+  console.log(user);
 
 
   // 🔄 Fetch all users (admin only)
