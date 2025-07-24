@@ -19,7 +19,7 @@ const AdminSidebar = () => {
   ];
 
   return (
-    <div className="w-72 min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-gray-100 shadow-xl flex flex-col">
+    <div className=" b w-72 min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-gray-100 shadow-xl flex flex-col">
       {/* Sidebar Header */}
       <div className="p-6 border-b border-gray-700 flex items-center space-x-3">
         <div className="avatar">
