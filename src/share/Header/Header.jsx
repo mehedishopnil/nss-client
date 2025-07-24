@@ -255,6 +255,13 @@ const Header = () => {
               >
                 Contact Us
               </Link>
+              <Link
+                to="/log-in"
+                className={`${isActive("/log-in")}`}
+                onClick={closeMenu}
+              >
+                LogIn
+              </Link>
             </>
           )}
 
