@@ -6,13 +6,12 @@ import { FaUserCircle } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import logo from "../../assets/image/nss-logo.png";
 import { AuthContext } from "../../providers/AuthProviders";
+import MobileNavMenuItem from "./MobileNavMenuItem";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { user, role, logOut } = useContext(AuthContext);
-
-  console.log(role)
 
   const closeMenu = () => {
     setIsOpen(false);
@@ -210,69 +209,8 @@ const Header = () => {
         </div>
 
         {/* Menu Items */}
-        <div className="flex flex-col space-y-4 px-6">
-          <Link to="/" className={`${isActive("/")}`} onClick={closeMenu}>
-            Home
-          </Link>
-
-          {role === "admin" ? (
-            <>
-              <Link
-                to="/admin-panel"
-                className={`${isActive("/admin-panel")}`}
-                onClick={closeMenu}
-              >
-                Admin Panel
-              </Link>
-              <Link
-                to="/admin-panel/profile"
-                className={`${isActive("/admin-panel/profile")}`}
-                onClick={closeMenu}
-              >
-                Profile
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link
-                to="/services"
-                className={`${isActive("/services")}`}
-                onClick={closeMenu}
-              >
-                Our Services
-              </Link>
-              <Link
-                to="/about-us"
-                className={`${isActive("/about-us")}`}
-                onClick={closeMenu}
-              >
-                About Us
-              </Link>
-              <Link
-                to="/contact"
-                className={`${isActive("/contact")}`}
-                onClick={closeMenu}
-              >
-                Contact Us
-              </Link>
-              <Link
-                to="/log-in"
-                className={`${isActive("/log-in")}`}
-                onClick={closeMenu}
-              >
-                LogIn
-              </Link>
-            </>
-          )}
-
-          <div className="flex gap-3 mt-4">
-            <a href="tel:01848107019" className="text-gray-700">
-              <IoIosCall className="text-xl" />
-            </a>
-            <a href="mailto:nssbd24@gmail.com" className="text-gray-700">
-              <MdEmail className="text-xl" />
-            </a>
-          </div>
+        <div>
+          <MobileNavMenuItem />
         </div>
       </div>
     </header>
