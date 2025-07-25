@@ -29,7 +29,7 @@ const MobileNavMenuItem = ({ closeMenu }) => {
       show: true
     },
     { 
-      path: "/admin-panel", 
+      path: "/admin-panel/admin-overview", 
       name: "Admin Panel", 
       icon: <FiSettings className="text-lg" />,
       show: role === "admin"
@@ -40,6 +40,7 @@ const MobileNavMenuItem = ({ closeMenu }) => {
       icon: <FiUser className="text-lg" />,
       show: role === "admin"
     },
+
     { 
       path: "/services", 
       name: "Our Services", 

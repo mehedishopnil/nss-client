@@ -58,8 +58,8 @@ const Header = () => {
             {role === "admin" ? (
               <>
                 <Link
-                  to="/admin-panel"
-                  className={`${isActive("/admin-panel")}`}
+                  to="/admin-panel/admin-overview"
+                  className={`${isActive("/admin-panel/admin-overview")}`}
                 >
                   Admin Panel
                 </Link>

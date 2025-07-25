@@ -24,9 +24,6 @@ const AuthProvider = ({ children }) => {
   const googleProvider = new GoogleAuthProvider();
   const API_URL = import.meta.env.VITE_Api_link;
 
-  console.log(user);
-
-
   // 🔄 Fetch all users (admin only)
  const fetchAllUsers = async (email) => {
   if (!email) {
