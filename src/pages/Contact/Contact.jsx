@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import {
   FaPhone,
   FaEnvelope,
@@ -7,11 +7,95 @@ import {
   FaPaperPlane,
 } from "react-icons/fa";
 import { motion } from "framer-motion";  
-
-
-
+import { AuthContext } from "../../providers/AuthProviders";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Contact = () => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: ""
+  });
+  const API_URL = import.meta.env.VITE_Api_link;
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if (!user) {
+      navigate('/log-in');
+      return;
+    }
+
+    // Prepare data to send to backend
+    const submissionData = {
+      ...formData,
+      userEmail: user.email, // Add user's email from auth context
+      userId: user.uid // Optional: include user ID if needed
+    };
+
+    // Here you would typically send the data to your backend
+    console.log("Form data to be sent:", submissionData);
+    
+    // fetch request:
+    
+    fetch(`${API_URL}/users-message`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(submissionData),
+})
+  .then(response => response.json())
+  .then(data => {
+    console.log('Success:', data);
+    // Show success message to user
+
+     // Show success alert
+    Swal.fire({
+      icon: 'success',
+      title: 'Message Sent!',
+      text: 'Thank you for reaching out. We will get back to you soon.',
+      confirmButtonColor: '#3085d6'
+    });
+
+    // Reset form
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      message: ""
+    });
+  })
+  
+    .catch((error) => {
+      console.error('Error:', error);
+      // Show error message to user
+
+       // Show error alert
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong! Please try again later.',
+      confirmButtonColor: '#d33'
+    });
+    });
+    
+
+  
+  };
+
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Hero Section */}
@@ -168,7 +252,7 @@ const Contact = () => {
                 Send Us a Message
               </h2>
 
-              <form className="space-y-5">
+              <form className="space-y-5" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
                     <label
@@ -180,8 +264,11 @@ const Contact = () => {
                     <input
                       type="text"
                       id="name"
+                      name="name"
                       required
-                      placeholder="John Doe"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="input your name"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     />
                   </div>
@@ -195,8 +282,11 @@ const Contact = () => {
                     <input
                       type="email"
                       id="email"
+                      name="email"
                       required
-                      placeholder="john@example.com"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="input your email"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     />
                   </div>
@@ -212,7 +302,10 @@ const Contact = () => {
                   <input
                     type="tel"
                     id="phone"
-                    placeholder="+123 456 7890"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    placeholder="input your phone number"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
                 </div>
@@ -226,8 +319,11 @@ const Contact = () => {
                   </label>
                   <textarea
                     id="message"
+                    name="message"
                     rows="5"
                     required
+                    value={formData.message}
+                    onChange={handleInputChange}
                     placeholder="How can we help you?"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   ></textarea>
@@ -254,18 +350,17 @@ const Contact = () => {
           className="mt-12 bg-white rounded-xl shadow-md overflow-hidden"
         >
           <div className="h-64 md:h-96 w-full">
-  <iframe
-    title="Our Location"
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3689.790236271491!2d91.82251231488346!3d22.36202748529056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30acd8ff79af67f9%3A0x31b6f58bcf353aff!2sHouse%2052%2C%20Road%201%2C%20Lane%203%2C%20Block%20A%2C%20South%20Khulshi%2C%20Chattogram!5e0!3m2!1sen!2sbd!4v1722076123456!5m2!1sen!2sbd"
-    width="100%"
-    height="100%"
-    style={{ border: 0 }}
-    allowFullScreen=""
-    loading="lazy"
-    className="rounded-lg"
-  ></iframe>
-</div>
-
+            <iframe
+              title="Our Location"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3689.790236271491!2d91.82251231488346!3d22.36202748529056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30acd8ff79af67f9%3A0x31b6f58bcf353aff!2sHouse%2052%2C%20Road%201%2C%20Lane%203%2C%20Block%20A%2C%20South%20Khulshi%2C%20Chattogram!5e0!3m2!1sen!2sbd!4v1722076123456!5m2!1sen!2sbd"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              className="rounded-lg"
+            ></iframe>
+          </div>
         </motion.div>
       </div>
     </div>

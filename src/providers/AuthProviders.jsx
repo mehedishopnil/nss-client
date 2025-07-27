@@ -19,6 +19,8 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState(null);
   const [allUsers, setAllUsers] = useState([]);
+  const [userMessages, setUserMessages] = useState([]);
+  const [allUsersMessages, setAllUsersMessages] = useState([]);
 
   const auth = getAuth(app);
   const googleProvider = new GoogleAuthProvider();
@@ -203,6 +205,90 @@ const refreshUsers = async () => {
     return signOut(auth).finally(() => setLoading(false));
   };
 
+  // Fetch users message where email required:
+  const fetchUserMessages = async (email) => {
+    if (!email) {
+      throw new Error("Authentication required");
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_URL}/users-message?email=${email}`);
+      if (!response.ok) throw new Error("Failed to fetch user messages");
+
+      const messages = await response.json();
+      setUserMessages(messages);
+      return messages;
+    } catch (error) {
+      console.error("FetchUserMessages error:", error);
+      setUserMessages([]);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
+  //  Fetch all users messages (admin only):
+  const fetchAllUsersMessages = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_URL}/users-message`);
+      if (!response.ok) throw new Error("Failed to fetch all user messages");
+
+      const messages = await response.json();
+      setAllUsersMessages(messages);
+      return messages;
+    } catch (error) {
+      console.error("FetchAllUsersMessages error:", error);
+      setAllUsersMessages([]);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  // ✅ Update a user's message (status and/or isRead) — admin only
+const updateUserMessage = async (messageId, updates = {}) => {
+  if (!user?.email || role !== "admin") {
+    throw new Error("Admin privileges required to update message");
+  }
+
+  const payload = {
+    adminEmail: user.email,
+    ...updates, // expected: { status: 'responded', isRead: true }
+  };
+
+  try {
+    const response = await fetch(`${API_URL}/users-messages/${messageId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to update message");
+    }
+
+    const data = await response.json();
+
+    // Optionally update state locally
+    setAllUsersMessages(prev =>
+      prev.map(msg => (msg._id === messageId ? data.data : msg))
+    );
+
+    return data.data;
+  } catch (error) {
+    console.error("UpdateUserMessage error:", error);
+    throw error;
+  }
+};
+
+
+
   // Update auth state listener to refresh users when admin logs in
   useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -215,8 +301,10 @@ const refreshUsers = async () => {
         setUser(userData ? { ...currentUser, ...userData } : currentUser);
         setRole(fetchedRole);
 
+
         if (fetchedRole === "admin") {
           await fetchAllUsers(currentUser.email); // ✅ pass email explicitly
+          await fetchAllUsersMessages(); // Fetch all users messages
         }
       } catch (error) {
         console.error("Auth state error:", error);
@@ -227,6 +315,7 @@ const refreshUsers = async () => {
       setUser(null);
       setRole(null);
       setAllUsers([]);
+
     }
     setLoading(false);
   });
@@ -237,19 +326,22 @@ const refreshUsers = async () => {
 
   // 🌍 Exporting all authentication context
   const authInfo = {
-    user,
-    role,
-    allUsers,
-    loading,
-    isAuthenticated: !!user,
-    isAdmin: role === "admin",
-    createUser,
-    signIn,
-    googleSignIn,
-    logOut,
-    fetchAllUsers,
-    refreshUsers,
-  };
+  user,
+  role,
+  allUsers,
+  loading,
+  isAuthenticated: !!user,
+  isAdmin: role === "admin",
+  createUser,
+  signIn,
+  googleSignIn,
+  logOut,
+  fetchAllUsers,
+  refreshUsers,
+  userMessages,
+  allUsersMessages,
+  updateUserMessage,
+};
 
 
   return (
