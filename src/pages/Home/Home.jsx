@@ -2,6 +2,7 @@ import BannerSection from "./HomeContent/BannerSection";
 import ServicesSection from "../../components/ServicesSection/ServicesSection";
 import AboutNss from "../../components/AboutNss/AboutNss";
 import GuardsGallery from "../../components/GuardsGallery/GuardsGallery";
+import QuickContact from "../../components/QuickContact/QuickContact";
 
 
 const Home = () => {
@@ -22,6 +23,10 @@ const Home = () => {
 
       <section>
         <GuardsGallery />
+      </section>
+
+      <section>
+        <QuickContact />
       </section>
     </div>
   );

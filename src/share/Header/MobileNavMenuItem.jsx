@@ -1,10 +1,9 @@
-import React, { useContext } from 'react';
+import  { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   FiHome, 
   FiSettings, 
-  FiUser, 
-  FiShield, 
+  FiUser,  
   FiBriefcase, 
   FiInfo, 
   FiMail, 

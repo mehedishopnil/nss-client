@@ -44,7 +44,7 @@ const Contact = () => {
         <motion.a
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          href="mailto:nssbd@gmail.com"
+          href="mailto:nssbd24@gmail.com"
           className="bg-blue-500 text-white p-3 rounded-full shadow-lg flex items-center justify-center"
         >
           <FaEnvelope className="text-xl" />
@@ -74,7 +74,7 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold text-gray-800">Address</h3>
                     <p className="text-gray-600 mt-1">
-                      Khulshi, Chattogram
+                     House 52, Road 1, Lane 3, Block A, South Khulshi Residential Area, Chattogram, Bangladesh
                     </p>
                   </div>
                 </div>
@@ -107,10 +107,10 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold text-gray-800">Email</h3>
                     <a
-                      href="mailto:nssbd@gmail.com"
+                      href="mailto:nssbd24@gmail.com"
                       className="text-blue-500 hover:underline block mt-1"
                     >
-                      nssbd@gmail.com
+                      nssbd24@gmail.com
                     </a>
                     
                   </div>
@@ -147,7 +147,7 @@ const Contact = () => {
                 <motion.a
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  href="mailto:nssbd@gmail.com"
+                  href="mailto:nssbd24@gmail.com"
                   className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center transition-all"
                 >
                   <FaEnvelope className="mr-2" /> Email Us
@@ -254,17 +254,18 @@ const Contact = () => {
           className="mt-12 bg-white rounded-xl shadow-md overflow-hidden"
         >
           <div className="h-64 md:h-96 w-full">
-            <iframe
-              title="Our Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14600.694781993756!2d91.8341732!3d22.3412447!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30acd8f0ff5f5143%3A0xa84e02a09b9e7a0!2sKhushi%2C%20Chattogram%2C%20Bangladesh!5e0!3m2!1sen!2sbd!4v1721204320304!5m2!1sen!2sbd"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen=""
-              loading="lazy"
-              className="rounded-lg"
-            ></iframe>
-          </div>
+  <iframe
+    title="Our Location"
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3689.790236271491!2d91.82251231488346!3d22.36202748529056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30acd8ff79af67f9%3A0x31b6f58bcf353aff!2sHouse%2052%2C%20Road%201%2C%20Lane%203%2C%20Block%20A%2C%20South%20Khulshi%2C%20Chattogram!5e0!3m2!1sen!2sbd!4v1722076123456!5m2!1sen!2sbd"
+    width="100%"
+    height="100%"
+    style={{ border: 0 }}
+    allowFullScreen=""
+    loading="lazy"
+    className="rounded-lg"
+  ></iframe>
+</div>
+
         </motion.div>
       </div>
     </div>

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   FaPhone,
   FaEnvelope,
@@ -8,7 +7,6 @@ import {
   FaLinkedin,
   FaFacebook,
 } from "react-icons/fa";
-import { HiOutlineChatAlt2 } from "react-icons/hi";
 
 const QuickContact = () => {
   const contactMethods = [
@@ -23,15 +21,15 @@ const QuickContact = () => {
     {
       icon: <FaEnvelope className="text-2xl" />,
       title: "Email Us",
-      info: "nssbd@gmail.com",
-      link: "mailto:nssbd@gmail.com",
+      info: "nssbd24@gmail.com",
+      link: "mailto:nssbd24@gmail.com",
       description: "Response within 2 hours",
       color: "bg-red-100 text-red-600",
     },
     {
       icon: <FaMapMarkerAlt className="text-2xl" />,
       title: "Visit Us",
-      info: "Khulshi, Chattogram",
+      info: "House 52, Road 1, Lane 3, Block A, South Khulshi Residential Area, Chattogram, Bangladesh",
       link: "https://www.google.com/maps/place/Khulshi,+Chattogram/@22.3583828,91.8127239,15z/data=!3m1!4b1!4m6!3m5!1s0x30acd89b5cfdf4a9:0x1f7e0a3a1a1a1a1a!8m2!3d22.3583828!4d91.8127239!16s%2Fg%2F1pty9y9f5",
       description: "Our office location",
       color: "bg-green-100 text-green-600",
@@ -96,7 +94,7 @@ const QuickContact = () => {
               <p className="text-gray-600 mb-2 group-hover:text-gray-800 transition-colors">
                 {method.description}
               </p>
-              <p className="text-lg font-medium text-gray-900 group-hover:text-orange-600 transition-colors">
+              <p className="text-lg text-center font-medium text-gray-900 group-hover:text-orange-600 transition-colors">
                 {method.info}
               </p>
             </a>
