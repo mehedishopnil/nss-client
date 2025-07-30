@@ -12,6 +12,7 @@ const AdminSidebar = () => {
   const menuItems = [
    
     { path: "/admin-panel/admin-overview", name: "Overview", icon: "📊" },
+    {path: "/admin-panel/messages", name: "User Message", icon: "🗨️"},
     { path: "/admin-panel/user-control", name: "User Control", icon: "👥" },
     { path: "/admin-panel/admin-control", name: "Admin Control", icon: "🔒" },
     { path: "/admin-panel/profile", name: "Profile", icon: "👤" },

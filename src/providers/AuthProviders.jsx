@@ -21,7 +21,7 @@ const AuthProvider = ({ children }) => {
   const [userMessages, setUserMessages] = useState([]);
   const [allUsersMessages, setAllUsersMessages] = useState([]);
 
-  console.log(role)
+  console.log(allUsersMessages)
 
 
   const auth = getAuth(app);
@@ -325,7 +325,7 @@ const fetchAllUsersMessages = async (email) => {
 
           if (fetchedRole === "admin") {
             await fetchAllUsers(currentUser.email); // ✅ pass email explicitly
-            await fetchAllUsersMessages(); // Fetch all users messages
+            await fetchAllUsersMessages(currentUser.email); // Fetch all users messages
           } else {
             await fetchUserMessages(currentUser.email);
             }

@@ -12,6 +12,7 @@ import UserProfile from "../pages/UserProfile/UserProfile";
 import AdminOverview from "../pages/AdminOverview/AdminOverview";
 import UserControl from "../pages/UserControl/UserControl";
 import AdminControl from "../pages/AdminControl/AdminControl";
+import Messages from "../components/Messages/Messages";
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
       {
         path: "admin-control",
         element: <AdminControl />
+      },
+      {
+        path: "messages",
+        element: <Messages />
       }
     ]
   }
