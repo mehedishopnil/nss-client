@@ -21,9 +21,7 @@ const AuthProvider = ({ children }) => {
   const [userMessages, setUserMessages] = useState([]);
   const [allUsersMessages, setAllUsersMessages] = useState([]);
 
-  console.log(allUsersMessages)
-
-
+  
   const auth = getAuth(app);
   const googleProvider = new GoogleAuthProvider();
   const API_URL = import.meta.env.VITE_Api_link;
