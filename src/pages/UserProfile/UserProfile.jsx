@@ -10,9 +10,11 @@ import {
   FiShield,
   FiLock,
   
-  FiBell
+  FiBell,
+  FiMessageSquare
 } from 'react-icons/fi';
 import { toast } from 'react-toastify';
+import UserMessage from '../../components/UserMessage/UserMessage';
 
 const UserProfile = () => {
   const { user, logout } = useContext(AuthContext);
@@ -51,6 +53,8 @@ const UserProfile = () => {
   const renderTabContent = () => {
     switch(activeTab) {
       case 'profile':
+
+      
         return (
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center space-x-4 mb-6">
@@ -152,7 +156,14 @@ const UserProfile = () => {
             )}
           </div>
         );
-      case 'security':
+      
+      case 'messages':
+      return (
+        <div className="bg-white rounded-lg shadow p-6">
+          <UserMessage />
+        </div>
+      );
+        case 'security':
         return (
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-xl font-semibold mb-4">Security Settings</h3>
@@ -263,6 +274,15 @@ const UserProfile = () => {
                 <FiUser />
                 <span>Profile</span>
               </button>
+
+              <button
+                onClick={() => setActiveTab('messages')}
+                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg mb-1 ${activeTab === 'messages' ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-100'}`}
+              >
+                <FiMessageSquare />
+                <span>Messages</span>
+              </button>
+
               <button
                 onClick={() => setActiveTab('security')}
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg mb-1 ${activeTab === 'security' ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-100'}`}

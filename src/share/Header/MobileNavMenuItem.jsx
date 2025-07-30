@@ -28,6 +28,12 @@ const MobileNavMenuItem = ({ closeMenu }) => {
       show: true
     },
     { 
+      path: "/user-profile", 
+      name: "Profile", 
+      icon: <FiUser className="text-lg" />,
+      show: role === "user"
+    },
+    { 
       path: "/admin-panel/admin-overview", 
       name: "Admin Panel", 
       icon: <FiSettings className="text-lg" />,
