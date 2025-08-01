@@ -21,10 +21,17 @@ const AuthProvider = ({ children }) => {
   const [userMessages, setUserMessages] = useState([]);
   const [allUsersMessages, setAllUsersMessages] = useState([]);
 
+  // guard-related states (admin only)
+  const [allGuards, setAllGuards] = useState(null);
+
+
+  console.log(allGuards);
+
   
   const auth = getAuth(app);
   const googleProvider = new GoogleAuthProvider();
   const API_URL = import.meta.env.VITE_Api_link;
+
 
   // 🔄 Fetch all users (admin only)
   const fetchAllUsers = async (email) => {
@@ -75,31 +82,25 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // 🔄 Fetch role: admin if isAdmin is true, otherwise user
+  const fetchUserRole = async (email) => {
+    if (!email) return "user";
 
+    try {
+      const response = await fetch(`${API_URL}/users/${email}`);
+      if (!response.ok) throw new Error("Failed to fetch user");
 
-// 🔄 Fetch role: admin if isAdmin is true, otherwise user
-const fetchUserRole = async (email) => {
-  if (!email) return "user";
+      const userData = await response.json();
 
-  try {
-    const response = await fetch(`${API_URL}/users/${email}`);
-    if (!response.ok) throw new Error("Failed to fetch user");
-
-    const userData = await response.json();
-
-    const roleData = userData?.isAdmin ? "admin" : "user";
-    setRole(roleData); // update the state
-    return roleData;   // return the role as well
-  } catch (error) {
-    console.error("Error fetching user role:", error);
-    setRole("user");
-    return "user";
-  }
-};
-
-
-
-
+      const roleData = userData?.isAdmin ? "admin" : "user";
+      setRole(roleData); // update the state
+      return roleData; // return the role as well
+    } catch (error) {
+      console.error("Error fetching user role:", error);
+      setRole("user");
+      return "user";
+    }
+  };
 
   // 🧾 Create User (Signup)
   const createUser = async (email, password, name) => {
@@ -134,9 +135,8 @@ const fetchUserRole = async (email) => {
 
       const createdUser = await response.json();
 
-
       setUser({ ...userCredential.user, ...createdUser });
-    
+
       return createdUser;
     } finally {
       setLoading(false);
@@ -157,9 +157,8 @@ const fetchUserRole = async (email) => {
 
       const userData = await response.json();
 
-
       setUser({ ...userCredential.user, ...userData });
-    
+
       return userData;
     } finally {
       setLoading(false);
@@ -217,59 +216,58 @@ const fetchUserRole = async (email) => {
 
   // Fetch users message where email required:
   const fetchUserMessages = async (email) => {
-  if (!email) {
-    throw new Error("Authentication required");
-  }
-
-  setLoading(true);
-  try {
-    const response = await fetch(`${API_URL}/users-messages/${email}`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch user messages");
+    if (!email) {
+      throw new Error("Authentication required");
     }
 
-    const resData = await response.json();
-    setUserMessages(resData.data || []); // ensure .data is used
-    return resData.data;
-  } catch (error) {
-    console.error("FetchUserMessages error:", error);
-    setUserMessages([]);
-    throw error;
-  } finally {
-    setLoading(false);
-  }
-};
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_URL}/users-messages/${email}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch user messages");
+      }
 
+      const resData = await response.json();
+      setUserMessages(resData.data || []); // ensure .data is used
+      return resData.data;
+    } catch (error) {
+      console.error("FetchUserMessages error:", error);
+      setUserMessages([]);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   //  Fetch all users messages (admin only):
-const fetchAllUsersMessages = async (email) => {
-  if (!email) {
-    throw new Error("Admin email is required");
-  }
-
-  setLoading(true);
-  try {
-    const response = await fetch(`${API_URL}/all-users-messages?email=${email}`);
-
-    const resData = await response.json();
-
-    if (!response.ok || !resData.success) {
-      throw new Error(resData.message || "Failed to fetch all user messages");
+  const fetchAllUsersMessages = async (email) => {
+    if (!email) {
+      throw new Error("Admin email is required");
     }
 
-    setAllUsersMessages(resData.data || []);
-    return resData.data;
-  } catch (error) {
-    console.error("FetchAllUsersMessages error:", error.message);
-    setAllUsersMessages([]);
-    throw error;
-  } finally {
-    setLoading(false);
-  }
-};
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `${API_URL}/all-users-messages?email=${email}`
+      );
 
+      const resData = await response.json();
 
+      if (!response.ok || !resData.success) {
+        throw new Error(resData.message || "Failed to fetch all user messages");
+      }
+
+      setAllUsersMessages(resData.data || []);
+      return resData.data;
+    } catch (error) {
+      console.error("FetchAllUsersMessages error:", error.message);
+      setAllUsersMessages([]);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // ✅ Update a user's message (status and/or isRead) — admin only
   const updateUserMessage = async (messageId, updates = {}) => {
@@ -308,8 +306,49 @@ const fetchAllUsersMessages = async (email) => {
     }
   };
 
+  //Guards related operation should be here::
+  
+  //  Fetch all users messages (admin only):
+ const fetchAllGuards = async (adminEmail) => {
+  if (!adminEmail) {
+    throw new Error("Admin email is required");
+  }
 
-  // Update auth state listener to refresh users when admin logs in
+  setLoading(true);
+  try {
+    const url = new URL(`${API_URL}/guards`);
+    url.searchParams.set("email", adminEmail);
+
+    const response = await fetch(url.toString());
+    const resData = await response.json();
+
+    if (!response.ok) {
+      // Prefer the server message if available
+      const msg = resData?.message || `Failed to fetch guards (status ${response.status})`;
+      throw new Error(msg);
+    }
+
+    if (!resData.success || !Array.isArray(resData.data)) {
+      throw new Error(resData.message || "Unexpected response format");
+    }
+
+    setAllGuards(resData.data);
+    return resData.data;
+  } catch (error) {
+    console.error("fetchAllGuards error:", error.message);
+    // Optionally clear: setAllGuards([]); 
+    // Otherwise leave previous value untouched
+    throw error;
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
+
+
+  // Update auth state listener to refresh admin-related data
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -322,11 +361,13 @@ const fetchAllUsersMessages = async (email) => {
           setRole(fetchedRole);
 
           if (fetchedRole === "admin") {
-            await fetchAllUsers(currentUser.email); // ✅ pass email explicitly
-            await fetchAllUsersMessages(currentUser.email); // Fetch all users messages
+            await fetchAllUsers(currentUser.email);
+            await fetchAllUsersMessages(currentUser.email);
+            await fetchAllGuards(currentUser.email);
+            
           } else {
             await fetchUserMessages(currentUser.email);
-            }
+          }
         } catch (error) {
           console.error("Auth state error:", error);
           setUser(currentUser);
@@ -359,6 +400,11 @@ const fetchAllUsersMessages = async (email) => {
     userMessages,
     allUsersMessages,
     updateUserMessage,
+
+    // guard-related exports
+    // guard-related exports
+    allGuards,
+    fetchAllGuards,
   };
 
   return (

@@ -66,7 +66,7 @@ const Messages = () => {
       {/* Mobile Header with Filter Button */}
       <div className="md:hidden bg-white p-4 shadow-sm flex justify-between items-center">
         <h1 className="text-xl font-bold text-gray-800">Messages</h1>
-        <div className="dropdown dropdown-end">
+        <div className="dropdown dropdown-end z-20">
           <label tabIndex={0} className="btn btn-sm btn-ghost">
             <FaFilter className="text-gray-500" />
             <span className="ml-1">Filters</span>
