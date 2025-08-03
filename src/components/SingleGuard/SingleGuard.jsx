@@ -204,23 +204,19 @@ const SingleGuard = () => {
           </div>
 
           {/* Duty Information */}
-          <div className="card bg-base-100 shadow-md">
+          <div className="card bg-base-100 p-4 shadow-md">
+            {/* Modal toggle */}
             <div className="card-actions justify-end">
               <button
                 className="btn btn-sm btn-outline"
-                onClick={() => {
-                  const newPlace = prompt(
-                    "Enter new duty place:",
-                    guard.dutyPlace
-                  );
-                  if (newPlace) {
-                    handleUpdateGuardInfo({ dutyPlace: newPlace });
-                  }
-                }}
+                onClick={() =>
+                  document.getElementById("duty_modal").showModal()
+                }
               >
                 Edit
               </button>
             </div>
+
             <div className="card-body">
               <h2 className="card-title text-xl">Duty Information</h2>
               <div className="space-y-3">
@@ -234,6 +230,62 @@ const SingleGuard = () => {
                 </div>
               </div>
             </div>
+
+            {/* DaisyUI Modal */}
+            <dialog id="duty_modal" className="modal">
+              <div className="modal-box">
+                <h3 className="font-bold text-lg">Edit Duty Information</h3>
+                <div className="py-4 space-y-4">
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Duty Place</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="dutyPlaceInput"
+                      defaultValue={guard.dutyPlace}
+                      className="input input-bordered w-full"
+                    />
+                  </div>
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Duty Time</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="dutyTimeInput"
+                      defaultValue={guard.dutyTime}
+                      placeholder="e.g., 08:00 AM - 05:00 PM"
+                      className="input input-bordered w-full"
+                    />
+                  </div>
+                </div>
+                <div className="modal-action">
+                  <form method="dialog" className="space-x-2">
+                    <button className="btn">Cancel</button>
+                    <button
+                      className="btn btn-primary"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const newPlace =
+                          document.getElementById("dutyPlaceInput").value;
+                        const newTime =
+                          document.getElementById("dutyTimeInput").value;
+                        if (newPlace && newTime) {
+                          handleUpdateGuardInfo({
+                            dutyPlace: newPlace,
+                            dutyTime: newTime,
+                          });
+                          document.getElementById("duty_modal").close();
+                        }
+                      }}
+                    >
+                      Save Changes
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </dialog>
           </div>
         </div>
 
