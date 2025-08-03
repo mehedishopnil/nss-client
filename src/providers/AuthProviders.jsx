@@ -24,14 +24,11 @@ const AuthProvider = ({ children }) => {
   // guard-related states (admin only)
   const [allGuards, setAllGuards] = useState(null);
 
-
   console.log(allGuards);
 
-  
   const auth = getAuth(app);
   const googleProvider = new GoogleAuthProvider();
   const API_URL = import.meta.env.VITE_Api_link;
-
 
   // 🔄 Fetch all users (admin only)
   const fetchAllUsers = async (email) => {
@@ -239,7 +236,6 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-
   //  Fetch all users messages (admin only):
   const fetchAllUsersMessages = async (email) => {
     if (!email) {
@@ -307,46 +303,175 @@ const AuthProvider = ({ children }) => {
   };
 
   //Guards related operation should be here::
-  
+
   //  Fetch all users messages (admin only):
- const fetchAllGuards = async (adminEmail) => {
-  if (!adminEmail) {
-    throw new Error("Admin email is required");
-  }
-
-  setLoading(true);
-  try {
-    const url = new URL(`${API_URL}/guards`);
-    url.searchParams.set("email", adminEmail);
-
-    const response = await fetch(url.toString());
-    const resData = await response.json();
-
-    if (!response.ok) {
-      // Prefer the server message if available
-      const msg = resData?.message || `Failed to fetch guards (status ${response.status})`;
-      throw new Error(msg);
+  const fetchAllGuards = async (adminEmail) => {
+    if (!adminEmail) {
+      throw new Error("Admin email is required");
     }
 
-    if (!resData.success || !Array.isArray(resData.data)) {
-      throw new Error(resData.message || "Unexpected response format");
+    setLoading(true);
+    try {
+      const url = new URL(`${API_URL}/guards`);
+      url.searchParams.set("email", adminEmail);
+
+      const response = await fetch(url.toString());
+      const resData = await response.json();
+
+      if (!response.ok) {
+        // Prefer the server message if available
+        const msg =
+          resData?.message ||
+          `Failed to fetch guards (status ${response.status})`;
+        throw new Error(msg);
+      }
+
+      if (!resData.success || !Array.isArray(resData.data)) {
+        throw new Error(resData.message || "Unexpected response format");
+      }
+
+      setAllGuards(resData.data);
+      return resData.data;
+    } catch (error) {
+      console.error("fetchAllGuards error:", error.message);
+      // Optionally clear: setAllGuards([]);
+      // Otherwise leave previous value untouched
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🛡️ Create a new guard (admin only)
+  const createGuard = async (guardData) => {
+    if (!user?.email || role !== "admin") {
+      throw new Error("Admin privileges required");
     }
 
-    setAllGuards(resData.data);
-    return resData.data;
-  } catch (error) {
-    console.error("fetchAllGuards error:", error.message);
-    // Optionally clear: setAllGuards([]); 
-    // Otherwise leave previous value untouched
-    throw error;
-  } finally {
-    setLoading(false);
-  }
-};
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_URL}/guards?email=${user.email}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(guardData),
+      });
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to create guard");
+      }
 
+      const result = await response.json();
+      await fetchAllGuards(user.email); // Refresh guards list
+      return result.data;
+    } catch (error) {
+      console.error("CreateGuard error:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  // 💰 Add guard transaction (admin only)
+  const addGuardTransaction = async (guardId, transactionData) => {
+    if (!user?.email || role !== "admin") {
+      throw new Error("Admin privileges required");
+    }
 
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `${API_URL}/guards/${guardId}/transactions?email=${user.email}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(transactionData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to add transaction");
+      }
+
+      const result = await response.json();
+      await fetchAllGuards(user.email); // Refresh guards list
+      return result.data;
+    } catch (error) {
+      console.error("AddGuardTransaction error:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 📅 Record guard presence (admin only)
+  const recordGuardPresence = async (guardId, presenceData) => {
+    if (!user?.email || role !== "admin") {
+      throw new Error("Admin privileges required");
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `${API_URL}/guards/${guardId}/presence?email=${user.email}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(presenceData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to record presence");
+      }
+
+      const result = await response.json();
+      await fetchAllGuards(user.email); // Refresh guards list
+      return result.data;
+    } catch (error) {
+      console.error("RecordGuardPresence error:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✏️ Update guard info (admin only)
+  const updateGuardInfo = async (guardId, updateData) => {
+    if (!user?.email || role !== "admin") {
+      throw new Error("Admin privileges required");
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `${API_URL}/guards/${guardId}?email=${user.email}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updateData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update guard");
+      }
+
+      const result = await response.json();
+      await fetchAllGuards(user.email); // Refresh guards list
+      return result.data;
+    } catch (error) {
+      console.error("UpdateGuardInfo error:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  
 
   // Update auth state listener to refresh admin-related data
   useEffect(() => {
@@ -364,7 +489,6 @@ const AuthProvider = ({ children }) => {
             await fetchAllUsers(currentUser.email);
             await fetchAllUsersMessages(currentUser.email);
             await fetchAllGuards(currentUser.email);
-            
           } else {
             await fetchUserMessages(currentUser.email);
           }
@@ -405,6 +529,10 @@ const AuthProvider = ({ children }) => {
     // guard-related exports
     allGuards,
     fetchAllGuards,
+    createGuard,
+    addGuardTransaction,
+    recordGuardPresence,
+    updateGuardInfo,
   };
 
   return (
