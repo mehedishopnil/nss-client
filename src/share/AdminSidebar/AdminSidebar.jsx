@@ -1,22 +1,24 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-  import logo from '../../assets/image/nss-logo.png';
+import logo from "../../assets/image/nss-logo.png";
 import { AuthContext } from "../../providers/AuthProviders";
+import { MdOutlineSecurity } from "react-icons/md";
+
 
 const AdminSidebar = () => {
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState(location.pathname);
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
 
   const menuItems = [
-   
     { path: "/admin-panel/admin-overview", name: "Overview", icon: "📊" },
-    {path: "/admin-panel/messages", name: "User Message", icon: "🗨️"},
+    { path: "/admin-panel/messages", name: "User Message", icon: "🗨️" },
+    { path: "/admin-panel/guards", name: "Guards", icon:<MdOutlineSecurity />},
     { path: "/admin-panel/user-control", name: "User Control", icon: "👥" },
     { path: "/admin-panel/admin-control", name: "Admin Control", icon: "🔒" },
     { path: "/admin-panel/profile", name: "Profile", icon: "👤" },
-     { path: "/", name: "Home", icon: "🏠" },
+    { path: "/", name: "Home", icon: "🏠" },
   ];
 
   return (
@@ -80,12 +82,19 @@ const AdminSidebar = () => {
         <div className="flex items-center space-x-3">
           <div className="avatar">
             <div className="w-10 rounded-full ring-2 ring-purple-500 ring-offset-2 ring-offset-gray-800">
-              <img src={user?.photoURL || "https://i.pravatar.cc/150?img=3"} alt="Admin" />
+              <img
+                src={user?.photoURL || "https://i.pravatar.cc/150?img=3"}
+                alt="Admin"
+              />
             </div>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate">{user?.displayName || "Admin User"}</p>
-            <p className="text-xs text-gray-400 truncate">{user?.email || "admin@example.com"}</p>
+            <p className="text-sm font-medium truncate">
+              {user?.displayName || "Admin User"}
+            </p>
+            <p className="text-xs text-gray-400 truncate">
+              {user?.email || "admin@example.com"}
+            </p>
           </div>
           <button className="btn btn-ghost btn-xs text-gray-400 hover:text-white">
             <svg

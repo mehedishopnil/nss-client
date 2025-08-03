@@ -13,6 +13,8 @@ import AdminOverview from "../pages/AdminOverview/AdminOverview";
 import UserControl from "../pages/UserControl/UserControl";
 import AdminControl from "../pages/AdminControl/AdminControl";
 import Messages from "../components/Messages/Messages";
+import Guards from "../components/Guards/Guards";
+import SingleGuard from "../components/SingleGuard/SingleGuard";
 
 export const router = createBrowserRouter([
   {
@@ -51,6 +53,14 @@ export const router = createBrowserRouter([
       {
         path: "messages",
         element: <Messages />
+      },
+      {
+        path: "guards",
+        element: <Guards />
+      },
+      {
+        path: "single-guard/:id",
+        element: <SingleGuard />
       }
     ]
   }
