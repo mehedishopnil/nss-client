@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from "../../providers/AuthProviders";
 import { FiMenu, FiX } from 'react-icons/fi';
+import { MdOutlineSecurity } from 'react-icons/md';
+import { IoMdPersonAdd } from 'react-icons/io';
 
 const AdminMobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,10 +12,13 @@ const AdminMobileMenu = () => {
 
   const menuItems = [
     { path: "/admin-panel/admin-overview", name: "Overview", icon: "📊" },
-    { path: "/admin-panel/user-control", name: "User Control", icon: "👥" },
-    { path: "/admin-panel/admin-control", name: "Admin Control", icon: "🔒" },
-    { path: "/admin-panel/profile", name: "Profile", icon: "👤" },
-    { path: "/", name: "Home", icon: "🏠" },
+        { path: "/admin-panel/messages", name: "User Message", icon: "🗨️" },
+        { path: "/admin-panel/guards", name: "Guards", icon:<MdOutlineSecurity />},
+        { path: "/admin-panel/guard-input-form", name: "Add Guard", icon: <IoMdPersonAdd />},
+        { path: "/admin-panel/user-control", name: "User Control", icon: "👥" },
+        { path: "/admin-panel/admin-control", name: "Admin Control", icon: "🔒" },
+        { path: "/admin-panel/profile", name: "Profile", icon: "👤" },
+        { path: "/", name: "Home", icon: "🏠" },
   ];
 
   return (

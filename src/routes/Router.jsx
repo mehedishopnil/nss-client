@@ -15,6 +15,9 @@ import AdminControl from "../pages/AdminControl/AdminControl";
 import Messages from "../components/Messages/Messages";
 import Guards from "../components/Guards/Guards";
 import SingleGuard from "../components/SingleGuard/SingleGuard";
+import GuardsInputForm from "../components/GuardsInputForm/GuardsInputForm";
+import GuardTransactions from "../components/GuardTransactions/GuardTransactions";
+import GuardPresence from "../components/GuardPresence/GuardPresence";
 
 export const router = createBrowserRouter([
   {
@@ -61,6 +64,18 @@ export const router = createBrowserRouter([
       {
         path: "single-guard/:id",
         element: <SingleGuard />
+      },
+      {
+        path: "guard-input-form",
+        element: <GuardsInputForm />
+      },
+      {
+        path: "guard-transactions/:id",
+        element: <GuardTransactions />
+      },
+      {
+        path: "guard-presence/:id",
+        element: <GuardPresence />
       }
     ]
   }

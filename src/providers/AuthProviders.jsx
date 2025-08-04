@@ -24,8 +24,6 @@ const AuthProvider = ({ children }) => {
   // guard-related states (admin only)
   const [allGuards, setAllGuards] = useState(null);
 
-  console.log(allGuards);
-
   const auth = getAuth(app);
   const googleProvider = new GoogleAuthProvider();
   const API_URL = import.meta.env.VITE_Api_link;

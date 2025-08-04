@@ -21,6 +21,7 @@ const SingleGuard = () => {
   const [todayPresence, setTodayPresence] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+
   useEffect(() => {
     if (allGuards && id) {
       const foundGuard = allGuards.find((g) => g._id === id);
@@ -156,15 +157,22 @@ const SingleGuard = () => {
         <div className="flex gap-3">
           <button
             onClick={() =>
-              navigate(`/admin-panel/guard-transactions/${guard._id}`)
+              navigate(`/admin-panel/guard-transactions/${guard._id}`, {
+                state: { transactions: guard.transactions },
+              })
             }
-            className="btn btn-outline btn-primary"
+            className="btn bg-blue-600 text-white hover:bg-blue-900"
           >
-            View All Transactions
+            View Transactions Chart
           </button>
+
           <button
-            onClick={() => navigate(`/admin-panel/guard-presence/${guard._id}`)}
-            className="btn btn-outline btn-secondary"
+            onClick={() =>
+              navigate(`/admin-panel/guard-presence/${guard._id}`, {
+                state: { presence: guard.presence },
+              })
+            }
+            className="btn bg-yellow-600 text-white hover:bg-yellow-900"
           >
             View Full Presence
           </button>
@@ -298,7 +306,7 @@ const SingleGuard = () => {
                 <div className="stats shadow w-full">
                   <div className="stat">
                     <div className="stat-title">Total Salary</div>
-                    <div className="stat-value text-primary">
+                    <div className="stat-value text-gray-700">
                       ৳{totalSalary}
                     </div>
                   </div>
@@ -306,7 +314,7 @@ const SingleGuard = () => {
                 <div className="stats shadow w-full">
                   <div className="stat">
                     <div className="stat-title">Total Advances</div>
-                    <div className="stat-value text-secondary">
+                    <div className="stat-value text-gray-700">
                       ৳{totalAdvances}
                     </div>
                   </div>
@@ -314,14 +322,14 @@ const SingleGuard = () => {
                 <div className="stats shadow w-full">
                   <div className="stat">
                     <div className="stat-title">Total Deposits</div>
-                    <div className="stat-value text-accent">
+                    <div className="stat-value text-green-600">
                       ৳{totalDeposits}
                     </div>
                   </div>
                 </div>
-                <div className="stats shadow w-full bg-success text-success-content">
+                <div className="stats shadow w-full bg-green-700 text-white">
                   <div className="stat">
-                    <div className="stat-title">Net Balance</div>
+                    <div className="stat-title text-white">Net Balance</div>
                     <div className="stat-value">৳{netBalance}</div>
                   </div>
                 </div>
