@@ -37,9 +37,9 @@ const BannerSection = () => {
       {/* Overlay Text */}
       <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-60 px-4 text-center">
         <h1 className="text-white text-3xl md:text-5xl font-bold tracking-wider">
-          Welcome to <span className="text-orange-500">NSS</span>
+          Welcome to 
         </h1>
-        <p className="text-white text-base md:text-xl md:tracking-widest mt-2">
+        <p className="text-orange-500 text-base md:text-4xl md:font-bold md:tracking-widest mt-2">
           National Security Supply & Service
         </p>
       </div>

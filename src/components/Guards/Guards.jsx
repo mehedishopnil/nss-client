@@ -111,14 +111,14 @@ const Guards = () => {
       {paginatedGuards.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {paginatedGuards.map((guard) => (
-            <Link
-              to={`/admin-panel/single-guard/${guard._id}`}
+            <div
+              
               key={guard._id}
               className="block transition-transform duration-200 hover:scale-[1.02]"
               aria-label={`View details for ${guard.name || "Guard"}`}
             >
               <GuardCard guard={guard} />
-            </Link>
+            </div>
           ))}
         </div>
       ) : (

@@ -28,6 +28,10 @@ const AuthProvider = ({ children }) => {
   const googleProvider = new GoogleAuthProvider();
   const API_URL = import.meta.env.VITE_Api_link;
 
+  // ======================
+  // users
+  // ======================
+
   // 🔄 Fetch all users (admin only)
   const fetchAllUsers = async (email) => {
     if (!email) {
@@ -209,6 +213,98 @@ const AuthProvider = ({ children }) => {
     return signOut(auth).finally(() => setLoading(false));
   };
 
+  // ✏️ Update user information (except email and admin status)
+  const updateUserInfo = async (email, updateData) => {
+    if (!user?.email) {
+      throw new Error("Authentication required");
+    }
+
+    setLoading(true);
+    try {
+      // Don't allow updating email or admin status through this function
+      if (updateData.email || updateData.isAdmin) {
+        throw new Error(
+          "Cannot update email or admin status through this function"
+        );
+      }
+
+      const response = await fetch(`${API_URL}/users/${email}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updateData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update user");
+      }
+
+      const updatedUser = await response.json();
+
+      // Update current user if it's their own profile
+      if (user.email === email) {
+        setUser((prev) => ({ ...prev, ...updatedUser }));
+      }
+
+      // Refresh users list if admin
+      if (role === "admin") {
+        await fetchAllUsers(user.email);
+      }
+
+      return updatedUser;
+    } catch (error) {
+      console.error("UpdateUserInfo error:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 👑 Update admin status (admin only)
+  const updateAdminStatus = async (userId, isAdmin) => {
+    if (!user?.email || role !== "admin") {
+      throw new Error("Admin privileges required");
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_URL}/users/admin/${userId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          isAdmin,
+          requestingAdminEmail: user.email,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update admin status");
+      }
+
+      const updatedUser = await response.json();
+
+      // Refresh users list
+      await fetchAllUsers(user.email);
+
+      // If updating current user's admin status, update local state
+      if (user._id === userId) {
+        setRole(isAdmin ? "admin" : "user");
+      }
+
+      return updatedUser;
+    } catch (error) {
+      console.error("UpdateAdminStatus error:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ======================
+  // users messages
+  // ======================
+
   // Fetch users message where email required:
   const fetchUserMessages = async (email) => {
     if (!email) {
@@ -300,7 +396,9 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  //Guards related operation should be here::
+  // ======================
+  // Guards
+  // ======================
 
   //  Fetch all users messages (admin only):
   const fetchAllGuards = async (adminEmail) => {
@@ -469,8 +567,6 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  
-
   // Update auth state listener to refresh admin-related data
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -519,11 +615,14 @@ const AuthProvider = ({ children }) => {
     logOut,
     fetchAllUsers,
     refreshUsers,
+    updateUserInfo,
+    updateAdminStatus,
+
+    // Users Messages
     userMessages,
     allUsersMessages,
     updateUserMessage,
 
-    // guard-related exports
     // guard-related exports
     allGuards,
     fetchAllGuards,

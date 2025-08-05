@@ -18,6 +18,7 @@ import SingleGuard from "../components/SingleGuard/SingleGuard";
 import GuardsInputForm from "../components/GuardsInputForm/GuardsInputForm";
 import GuardTransactions from "../components/GuardTransactions/GuardTransactions";
 import GuardPresence from "../components/GuardPresence/GuardPresence";
+import GuardSearchResultView from "../components/GuardSearchResultView/GuardSearchResultView"
 
 export const router = createBrowserRouter([
   {
@@ -25,12 +26,12 @@ export const router = createBrowserRouter([
     element: <Main />,
     children: [
       { path: "/", element: <Home /> },
-      { path: "/services", element: <OurServices/> },
-      { path: "/contact", element: <Contact/> },
-      { path: "/about-us", element: <AboutUs/> },
-      { path: "/log-in", element: <Login/> },
-      { path: "/sign-up", element: <SignUp/> },
-      { path: "/user-profile", element: <UserProfile/>}
+      { path: "services", element: <OurServices/> },
+      { path: "contact", element: <Contact/> },
+      { path: "about-us", element: <AboutUs/> },
+      { path: "log-in", element: <Login/> },
+      { path: "sign-up", element: <SignUp/> },
+      { path: "user-profile", element: <UserProfile/>}
     ],
   },
   {
@@ -76,6 +77,10 @@ export const router = createBrowserRouter([
       {
         path: "guard-presence/:id",
         element: <GuardPresence />
+      },
+      {
+        path: "guard-search-result",
+        element:  <GuardSearchResultView />
       }
     ]
   }

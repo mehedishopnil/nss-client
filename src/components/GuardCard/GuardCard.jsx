@@ -1,168 +1,162 @@
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  FiUser,
+  FiPhone,
+  FiCreditCard,
+  FiMapPin,
+  FiClock,
+  FiDollarSign,
+  FiTrendingUp,
+  FiCalendar,
+} from "react-icons/fi";
 
-/**
- * Simple date formatter fallback: formats ISO / timestamp to "MMM d, yyyy"
- * e.g., "2024-08-03T12:00:00Z" => "Aug 3, 2024"
- */
-const defaultFormatDate = (iso) => {
-  if (!iso) return "N/A";
-  try {
-    const d = new Date(iso);
-    if (isNaN(d)) return "Invalid date";
-    return d.toLocaleDateString(undefined, {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-  } catch {
-    return "N/A";
-  }
-};
-
-const GuardCard = ({ guard = {}, onClick, formatDate = defaultFormatDate }) => {
+const GuardCard = ({ guard = {}, onClick, formatDate }) => {
   const {
+    _id,
     name = "Unnamed Guard",
     joinDate,
     phone = "N/A",
     nid = "N/A",
     address = "No address provided",
     dutyPlace = "N/A",
-    dutyTime = "N/A",
-    lastSalary = "0",
-    lastAdvance = "0",
+    dutyTime,
+    lastSalary = 0,
+    lastAdvance = 0,
+    presence = [],
+    photoUrl,
   } = guard;
 
+  console.log(guard.joinDate);
+
+  // Calculate presence status
+  const latestStatus =
+    presence.length > 0 ? presence[presence.length - 1].status : "unknown";
+
+  // Status colors
+  const statusColors = {
+    present: "bg-emerald-100 text-emerald-800",
+    absent: "bg-rose-100 text-rose-800",
+    late: "bg-amber-100 text-amber-800",
+    unknown: "bg-gray-100 text-gray-800",
+  };
+
+  // Format currency
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 0,
+    }).format(amount);
+  };
+
   return (
-    <div
-      role={onClick ? "button" : undefined}
-      onClick={onClick}
-      className="card bg-base-100 shadow-md hover:shadow-xl transition-all duration-200 cursor-pointer border border-transparent hover:border-primary/20"
-      aria-label={`View details for ${name}`}
+    <motion.div
+      whileHover={{ y: -7 }}
+      transition={{ type: "spring", stiffness: 300 }}
+      className="relative"
     >
-      <div className="card-body p-5">
-        {/* Header Section */}
-        <div className="flex justify-between items-start">
-          <h2
-            className="card-title text-lg md:text-xl truncate max-w-[180px]"
-            title={name}
+      <Link
+        to={`/admin-panel/single-guard/${_id}`}
+        onClick={onClick}
+        className="block group"
+        aria-label={`View details for ${name}`}
+      >
+        <div className="h-full bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 hover:border-indigo-100">
+          {/* Status ribbon */}
+          <div
+            className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-medium ${statusColors[latestStatus]}`}
           >
-            {name}
-          </h2>
-          <span className="badge badge-primary badge-sm md:badge-md">
-            Joined: {formatDate(joinDate)}
-          </span>
-        </div>
-
-        <div className="divider my-1" />
-
-        {/* Basic Info Section */}
-        <div className="space-y-2 text-sm md:text-base">
-          <p className="flex items-center gap-1">
-            <svg
-              className="w-4 h-4 text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-              />
-            </svg>
-            <span>{phone}</span>
-          </p>
-          <p className="flex items-center gap-1">
-            <svg
-              className="w-4 h-4 text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-              />
-            </svg>
-            <span>NID: {nid}</span>
-          </p>
-          <p className="flex items-start gap-1">
-            <svg
-              className="w-4 h-4 text-gray-500 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-            <span className="flex-1 truncate" title={address}>
-              {address}
-            </span>
-          </p>
-          <p className="flex items-start gap-1">
-            <svg
-              className="w-4 h-4 text-gray-500 mt-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span className="flex-1 truncate">
-              {dutyPlace} ({dutyTime})
-            </span>
-          </p>
-        </div>
-
-        <div className="divider my-1" />
-
-        {/* Financial Summary Section */}
-        <div className="flex flex-col sm:flex-row justify-between gap-2">
-          <div className="stat p-2 bg-base-200 rounded-lg flex-1">
-            <div className="stat-title text-xs md:text-sm">
-              Last Salary
-            </div>
-            <div className="stat-value text-sm md:text-base">
-              {lastSalary} BDT
-            </div>
+            {latestStatus.charAt(0).toUpperCase() + latestStatus.slice(1)}
           </div>
-          <div className="stat p-2 bg-base-200 rounded-lg flex-1">
-            <div className="stat-title text-xs md:text-sm">
-              Last Advance
+
+          {/* Profile header with photo */}
+          <div className="relative bg-gradient-to-r from-indigo-500 to-purple-600 h-16">
+            {photoUrl ? (
+              <img
+                src={photoUrl}
+                alt={name}
+                className="absolute -bottom-8 left-4 w-16 h-16 rounded-full border-4 border-white object-cover"
+              />
+            ) : (
+              <div className="absolute -bottom-8 left-4 w-16 h-16 rounded-full border-4 border-white bg-indigo-100 flex items-center justify-center">
+                
+                {name?.charAt(0) || <FiUser className="w-6 h-6 text-indigo-600" />}
+              </div>
+            )}
+          </div>
+
+          {/* Card body */}
+          <div className="pt-10 px-5 pb-5">
+            {/* Name and join date */}
+            <div className="flex justify-between items-start mb-4">
+              <h2 className="text-xl font-bold text-gray-900 truncate max-w-[70%]">
+                {name}
+              </h2>
+              <div className="text-xs text-gray-500 flex items-center">
+                <FiCalendar className="mr-1" />
+                {joinDate ? joinDate.split("T")[0] : "N/A"}
+              </div>
             </div>
-            <div className="stat-value text-sm md:text-base">
-              {lastAdvance} BDT
+
+            {/* Details list */}
+            <div className="space-y-3 text-sm">
+              <div className="flex items-center">
+                <div className="w-8 flex-shrink-0 text-gray-400">
+                  <FiPhone />
+                </div>
+                <div className="truncate" title={phone}>
+                  {phone}
+                </div>
+              </div>
+
+              <div className="flex items-center">
+                <div className="w-8 flex-shrink-0 text-gray-400">
+                  <FiCreditCard />
+                </div>
+                <div className="truncate" title={`NID: ${nid}`}>
+                  NID: {nid}
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <div className="w-8 flex-shrink-0 text-gray-400 pt-0.5">
+                  <FiMapPin />
+                </div>
+                <div className="truncate" title={address}>
+                  {address}
+                </div>
+              </div>
+
+              <div className="flex items-center">
+                <div className="w-8 flex-shrink-0 text-gray-400">
+                  <FiClock />
+                </div>
+                <div className="truncate">
+                  {dutyPlace} • {dutyTime}
+                </div>
+              </div>
+            </div>
+
+            {/* View button */}
+            <div className="mt-4 pt-4 border-t border-gray-100">
+              <button className="w-full py-2 bg-gradient-to-r from-orange-400 to-purple-600 text-white rounded-lg opacity-90 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-2">
+                <span>View Details</span>
+                <FiTrendingUp className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </Link>
+    </motion.div>
   );
 };
 
-
+GuardCard.propTypes = {
+  guard: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
+  formatDate: PropTypes.func,
+};
 
 export default GuardCard;

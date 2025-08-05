@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import AdminSidebar from "../../share/AdminSidebar/AdminSidebar";
 import AdminMobileMenu from "../../share/AdminMobileMenu/AdminMobileMenu";
 import logo from '../../assets/image/nss-logo.png';
@@ -20,13 +20,13 @@ const AdminPanel = () => {
         <header className="md:hidden sticky top-0 z-30 bg-white shadow-sm">
           <div className="flex items-center justify-between px-4 py-3">
             {/* Logo on left */}
-            <div className="flex items-center">
+            <Link to='/' className="flex items-center">
               <img 
                src= {logo}
                 alt="Logo"
                 className="h-8 w-auto"
               />
-            </div>
+            </Link>
             
             {/* Right side with user and menu icon */}
             <div className="flex items-center space-x-4">
